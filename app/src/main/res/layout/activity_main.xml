@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="0.71000004" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/et2"
         android:layout_width="345dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -34,9 +34,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Task Name"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
-        app:layout_constraintStart_toStartOf="@+id/editTextDate"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+        app:layout_constraintBottom_toTopOf="@+id/et2"
+        app:layout_constraintStart_toStartOf="@+id/et1"
+        app:layout_constraintTop_toBottomOf="@+id/et1" />
 
     <TextView
         android:id="@+id/headerTV"
@@ -60,12 +60,12 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="50dp"
         android:text="Task Date/Time"
-        app:layout_constraintBottom_toTopOf="@+id/editTextDate"
+        app:layout_constraintBottom_toTopOf="@+id/et1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerTV" />
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/et1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -80,12 +80,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Task Details"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextMultiLine"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintBottom_toTopOf="@+id/et3"
+        app:layout_constraintStart_toStartOf="@+id/et2"
+        app:layout_constraintTop_toBottomOf="@+id/et2" />
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
+        android:id="@+id/et3"
         android:layout_width="345dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -103,10 +103,10 @@
         android:layout_marginTop="8dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextMultiLine"
+        app:layout_constraintEnd_toEndOf="@+id/et3"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextMultiLine"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine"
+        app:layout_constraintStart_toStartOf="@+id/et3"
+        app:layout_constraintTop_toBottomOf="@+id/et3"
         app:layout_constraintVertical_bias="0.13" />
 
     <ImageView

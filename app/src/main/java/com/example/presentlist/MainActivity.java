@@ -1,21 +1,49 @@
 package com.example.presentlist;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-//this is a test
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ImageView arrow = findViewById(R.id.imageView);
+        EditText dateTime = findViewById(R.id.et1);
+        EditText tName = findViewById(R.id.et2);
+        EditText tDetails = findViewById(R.id.et3);
+        Button save = findViewById(R.id.saveBtn);
+
+        //Handles arrow clicks on both orientations.
+        Intent goToShowListScreen = new Intent(this, ShowList.class);
+        arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(goToShowListScreen);
+            }
+        });
+
+
+
+
+
+
+
+
     }
 
 
@@ -31,16 +59,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.item1:
+            case R.id.tasklist:
 
-                Intent intent = new Intent(this, ShowList.class);
-                startActivity(intent);
-                Toast.makeText(this, "Showing the List", Toast.LENGTH_SHORT).show();
+                Intent goToShowListScreen = new Intent(this, ShowList.class);
+                startActivity(goToShowListScreen);
                 return true;
 
 
-            case R.id.item2:
-                Toast.makeText(this, "Welcome back to Home", Toast.LENGTH_SHORT).show();
+            case R.id.taskinputscreen:
+                Toast.makeText(this, "You are currently on the task input screen", Toast.LENGTH_SHORT).show();
                 return true;
 
             default:
