@@ -28,7 +28,7 @@ public class ShowList extends AppCompatActivity {
 
 
     }
-
+    //this handles the back button on the action bar.
     @Override
     public boolean onSupportNavigateUp() {
         finish();
