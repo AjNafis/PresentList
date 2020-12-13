@@ -3,13 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/item1"
-        android:icon="@drawable/ic_icon"
-        android:title="Show List"
+        android:title="Task List"
         app:showAsAction="never"></item>
 
     <item android:id="@+id/item2"
-        android:icon="@drawable/ic_icon"
-        android:title="Show Home"
+        android:title="Task Input Screen"
         app:showAsAction="never"></item>
 
 </menu>
