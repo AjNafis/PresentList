@@ -2,14 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/item1"
-        android:icon="@drawable/ic_icon"
-        android:title="Show List"
+    <item android:id="@+id/tasklist"
+        android:title="Task List"
         app:showAsAction="never"></item>
 
-    <item android:id="@+id/item2"
-        android:icon="@drawable/ic_icon"
-        android:title="Show Home"
+    <item android:id="@+id/taskinputscreen"
+        android:title="Task Input Screen"
         app:showAsAction="never"></item>
 
 </menu>
