@@ -52,21 +52,22 @@ public class MainActivity extends AppCompatActivity {
         arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String results = null;
-
+                String results = "";
                 Cursor cr = db.rawQuery("SELECT * FROM listData",null);
                 if(cr.moveToFirst()) {
                     do {
                         for (int i = 0; i < cr.getColumnCount(); i++) {
                             results += cr.getString(i) + " ";
-                            results += "\n";
                         }
+                        results += "\n";
                     }
                     while (cr.moveToNext());
                 }
                 cr.close();
+                //If there is no data, we will just pass a string saying there is no data to be shown.
+                results = results == "" ? "No data to show" : results;
 
-                tDetails.setText(results);
+                goToShowListScreen.putExtra("ListData",results);
                 startActivity(goToShowListScreen);
             }
         });
@@ -80,30 +81,25 @@ public class MainActivity extends AppCompatActivity {
         tdate.setText(y + "-" + m + "-" + d);
 
         //Created a DatePicker dialog in order to get tdate from user more conveniently.
-        tdate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    //Doing this to hide the keyboard
-                    tdate.clearFocus();
+        tdate.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus){
+                //Doing this to hide the keyboard
+                tdate.clearFocus();
 
-                    //This opens up the calender Datepicker Dialog.
-                    DatePickerDialog sDatePickerDialog;
-                    DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                            //This sets the edit text box with the selected tdate
-                            tdate.setText(dayOfMonth + " / " + month + " / " + year);
-                        }
-                    };
+                //This opens up the calender Datepicker Dialog.
+                DatePickerDialog sDatePickerDialog;
+                DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        //This sets the edit text box with the selected tdate
+                        tdate.setText(dayOfMonth + " / " + month + " / " + year);
+                    }
+                };
 
-                    sDatePickerDialog = new DatePickerDialog(MainActivity.this,listener,y,m,d);
-                    sDatePickerDialog.show();
-                }
+                sDatePickerDialog = new DatePickerDialog(MainActivity.this,listener,y,m,d);
+                sDatePickerDialog.show();
             }
         });
-
-
 
         //Handle Save button press.
         save.setOnClickListener(new View.OnClickListener() {
@@ -127,27 +123,14 @@ public class MainActivity extends AppCompatActivity {
                     values.put("name",tName.getText().toString());
                     values.put("details",tDetails.getText().toString());
 
-                    db.insert("listData",null,values);
-
-                    String results = null;
-
-                    Cursor cr = db.rawQuery("SELECT * FROM listData",null);
-                    if(cr.moveToFirst()) {
-                        do {
-                            for (int i = 0; i < cr.getColumnCount(); i++) {
-                                results += cr.getString(i) + " ";
-                            }
-                            results += "\n";
-                        }
-                        while (cr.moveToNext());
-                    }
-                    cr.close();
+                    //Insert data into the data base, i used ContentValues class to help me
+                    //put the data into the the row, regula SQL code was not accepting strings as input.
+                    db.insert("ListData",null,values);
 
                     tdate.setText(y + "-" + m + "-" + d);
                     tName.setText("");
                     tDetails.setText("");
 
-                    ((TextView)findViewById(R.id.TV1)).setText(results);
                 }
             }
         });
