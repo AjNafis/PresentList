@@ -25,6 +25,9 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
+    //This stores the data from the db.
+    String results = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,27 +52,24 @@ public class MainActivity extends AppCompatActivity {
 
         //Handles arrow clicks on both orientations.
         Intent goToShowListScreen = new Intent(this, ShowList.class);
-        arrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String results = "";
-                Cursor cr = db.rawQuery("SELECT * FROM listData",null);
-                if(cr.moveToFirst()) {
-                    do {
-                        for (int i = 0; i < cr.getColumnCount(); i++) {
-                            results += cr.getString(i) + " ";
-                        }
-                        results += "\n";
-                    }
-                    while (cr.moveToNext());
-                }
-                cr.close();
-                //If there is no data, we will just pass a string saying there is no data to be shown.
-                results = results == "" ? "No data to show" : results;
+        arrow.setOnClickListener(v -> {
 
-                goToShowListScreen.putExtra("ListData",results);
-                startActivity(goToShowListScreen);
+            Cursor cr = db.rawQuery("SELECT * FROM listData",null);
+            if(cr.moveToFirst()) {
+                do {
+                    for (int i = 0; i < cr.getColumnCount(); i++) {
+                        results += cr.getString(i) + " ";
+                    }
+                    results += "\n";
+                }
+                while (cr.moveToNext());
             }
+            cr.close();
+            //If there is no data, we will just pass a string saying there is no data to be shown.
+            results = results == "" ? "No data to show" : results;
+
+            goToShowListScreen.putExtra("ListData",results);
+            startActivity(goToShowListScreen);
         });
 
         //Getting todays date from phone.
