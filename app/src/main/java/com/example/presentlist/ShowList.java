@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class ShowList extends AppCompatActivity {
 
-
+    ArrayList<String> listData_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,31 +38,33 @@ public class ShowList extends AppCompatActivity {
 
         ListView listView = findViewById(R.id.listView);
 
-        ArrayList<String> listData_list = new ArrayList<>();
-        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, listData_list);
+        listData_list = new ArrayList<>();
+        ArrayAdapter adapter = new ArrayAdapter(ShowList.this,android.R.layout.simple_list_item_1, listData_list);
 
         listView.setAdapter(adapter);
 
         String[] str = _listData.split("\n");
 
-        for (String data : str){
-            //ListData listData;
-            listData_list.add(data);
+        if (!(_listData.equals("No data to show") || _listData == null)) {
+            for (String data : str){
+
+                ListData listData = new ListData();
+                String [] _str = data.split(" ");
+                listData.Date = _str[0];
+                listData.Name = _str[1];
+                listData.Details = _str [2];
+
+
+                listData_list.add(  "\nDate: " + listData.Date + "\n\n" +
+                                    "Task Name: " + listData.Name + "\n" +
+                                    "Task Details: " + listData.Details + "\n");
+            }
+        } else {
+            listData_list.add("No data to show");
         }
         adapter.notifyDataSetChanged();
 
-
     }
-
-
-
-
-
-
-
-
-
-
 
 
     //This handles the back button on the action bar.

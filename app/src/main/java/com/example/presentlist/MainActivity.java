@@ -25,9 +25,6 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-    //This stores the data from the db.
-    String results = "";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         //Handles arrow clicks on both orientations.
         Intent goToShowListScreen = new Intent(this, ShowList.class);
         arrow.setOnClickListener(v -> {
-
+            String results = "";
             Cursor cr = db.rawQuery("SELECT * FROM listData",null);
             if(cr.moveToFirst()) {
                 do {
@@ -78,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         int m = current.get(Calendar.MONTH);
         int d = current.get(Calendar.DAY_OF_MONTH);
         //Setting tdate to todays tdate.
-        tdate.setText(y + "-" + m + "-" + d);
+        tdate.setText(d + "-" + m + "-" + y);
 
         //Created a DatePicker dialog in order to get tdate from user more conveniently.
         tdate.setOnFocusChangeListener((v, hasFocus) -> {
@@ -92,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         //This sets the edit text box with the selected tdate
-                        tdate.setText(dayOfMonth + " / " + month + " / " + year);
+                        tdate.setText(dayOfMonth + "-" + month + "-" + year);
                     }
                 };
 
@@ -127,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     //put the data into the the row, regula SQL code was not accepting strings as input.
                     db.insert("ListData",null,values);
 
-                    tdate.setText(y + "-" + m + "-" + d);
+                    tdate.setText(d + "-" + m + "-" + y);
                     tName.setText("");
                     tDetails.setText("");
 
@@ -154,10 +151,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.tasklist:
 
-                Intent goToShowListScreen = new Intent(this, ShowList.class);
-                startActivity(goToShowListScreen);
+                ImageView arrow = findViewById(R.id.imageView);
+                arrow.performClick();
                 return true;
-
 
             case R.id.taskinputscreen:
                 Toast.makeText(this, "You are currently on the task input screen", Toast.LENGTH_SHORT).show();

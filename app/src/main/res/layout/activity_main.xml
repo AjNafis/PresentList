@@ -126,4 +126,5 @@
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="@+id/textView2"
         app:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
