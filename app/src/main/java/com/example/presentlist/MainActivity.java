@@ -2,8 +2,10 @@ package com.example.presentlist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -74,8 +76,11 @@ public class MainActivity extends AppCompatActivity {
         int y = current.get(Calendar.YEAR);
         int m = current.get(Calendar.MONTH);
         int d = current.get(Calendar.DAY_OF_MONTH);
+        String [] months = {"Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"};
+
         //Setting tdate to todays tdate.
-        tdate.setText(d + "-" + m + "-" + y);
+        tdate.setText(d + "-" + months[m] + "-" + y);
+
 
         //Created a DatePicker dialog in order to get tdate from user more conveniently.
         tdate.setOnFocusChangeListener((v, hasFocus) -> {
@@ -89,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         //This sets the edit text box with the selected tdate
-                        tdate.setText(dayOfMonth + "-" + month + "-" + year);
+                        tdate.setText(dayOfMonth + "-" + months[month] + "-" + year);
                     }
                 };
 
@@ -114,24 +119,48 @@ public class MainActivity extends AppCompatActivity {
                     tDetails.setError("Enter Task Details");
                 }
                 else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-                    ContentValues values = new ContentValues();
-                    values.put("date",tdate.getText().toString());
-                    values.put("name",tName.getText().toString());
-                    values.put("details",tDetails.getText().toString());
+                    builder.setTitle("Please Confirm");
+                    builder.setMessage( "Date: " + tdate.getText().toString() + "\n" +
+                                        "Task Name: " + tName.getText().toString() + "\n" +
+                                        "Task Details: " + tDetails.getText().toString() + "\n\n" +
+                            "Is this correct?");
 
-                    //Insert data into the data base, i used ContentValues class to help me
-                    //put the data into the the row, regula SQL code was not accepting strings as input.
-                    db.insert("ListData",null,values);
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
-                    tdate.setText(d + "-" + m + "-" + y);
-                    tName.setText("");
-                    tDetails.setText("");
+                        public void onClick(DialogInterface dialog, int which) {
+                            ContentValues values = new ContentValues();
+                            values.put("date",tdate.getText().toString());
+                            values.put("name",tName.getText().toString());
+                            values.put("details",tDetails.getText().toString());
 
+                            //Insert data into the data base, i used ContentValues class to help me
+                            //put the data into the the row, regula SQL code was not accepting strings as input.
+                            db.insert("ListData",null,values);
+
+                            tdate.setText(d + "-" + months[m] + "-" + y);
+                            tName.setText("");
+                            tDetails.setText("");
+
+                            dialog.dismiss();
+                        }
+                    });
+
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Do nothing
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }
             }
         });
-
 
     }
 
