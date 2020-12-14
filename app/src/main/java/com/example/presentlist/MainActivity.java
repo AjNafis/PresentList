@@ -37,17 +37,22 @@ public class MainActivity extends AppCompatActivity {
         EditText tName = findViewById(R.id.et2);
         EditText tDetails = findViewById(R.id.et3);
         Button save = findViewById(R.id.saveBtn);
+        String [] months = {"Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"};
 
         //Creating database
         SQLiteDatabase db = openOrCreateDatabase("TodoListDb",MODE_PRIVATE,null);
-        //Remove table if exists, so that we can create it again.
-        db.execSQL("DROP TABLE IF EXISTS listData");
-        //Creating table
-        db.execSQL("CREATE TABLE listData(" +
-                "date varchar(32)," +
-                "name varchar(255)," +
-                "details varchar(255))");
 
+        //Remove table if exists, so that we can create it again.
+        //db.execSQL("DROP TABLE IF EXISTS listData");
+
+        Cursor _cr = db.rawQuery("SELECT * FROM listData",null);
+        //Creating table only when no tables exist.
+        if (_cr == null) {
+            db.execSQL("CREATE TABLE listData(" +
+                    "date varchar(32)," +
+                    "name varchar(255)," +
+                    "details varchar(255))");
+        }
 
         //Handles arrow clicks on both orientations.
         Intent goToShowListScreen = new Intent(this, ShowList.class);
@@ -76,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         int y = current.get(Calendar.YEAR);
         int m = current.get(Calendar.MONTH);
         int d = current.get(Calendar.DAY_OF_MONTH);
-        String [] months = {"Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"};
 
         //Setting tdate to todays tdate.
         tdate.setText(d + "-" + months[m] + "-" + y);

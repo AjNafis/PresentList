@@ -4,4 +4,5 @@ public class ListData {
     public String Date;
     public String Name;
     public String Details;
+    public String ID;
 }
