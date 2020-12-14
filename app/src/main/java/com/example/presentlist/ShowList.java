@@ -12,7 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class ShowList extends AppCompatActivity {
 
@@ -26,23 +29,42 @@ public class ShowList extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Task List");
 
+        TextView tv = findViewById(R.id.textView3);
+
+
+
+
+
+
 
     }
-    //this handles the back button on the action bar.
+
+
+
+
+
+
+
+
+
+
+
+
+    //This handles the back button on the action bar.
     @Override
     public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
 
-    //------------------------CODE FOR SHOWING THE MENU AND DIALOUGE----------------------
+    //Creates options menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.et_menu, menu);
         return true;
     }
-
+    //Handles options menu interactions. Send to previous page.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
