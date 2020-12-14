@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Creating database
         SQLiteDatabase db = openOrCreateDatabase("TodoListDb",MODE_PRIVATE,null);
-        //Remove table if exists, so that we can create it again.
+        //Remove table if exists, so that we can create it again. .
         db.execSQL("DROP TABLE IF EXISTS listData");
         //Creating table
         db.execSQL("CREATE TABLE listData(" +
