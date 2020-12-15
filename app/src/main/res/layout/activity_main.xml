@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/showTaskListTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -108,6 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Save"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/et3"
         app:layout_constraintHorizontal_bias="0.95"
@@ -122,9 +123,9 @@
         android:layout_marginStart="8dp"
         android:clickable="true"
         android:stateListAnimator="@android:anim/fade_out"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="@+id/textView2"
+        app:layout_constraintBottom_toBottomOf="@+id/showTaskListTV"
+        app:layout_constraintStart_toEndOf="@+id/showTaskListTV"
+        app:layout_constraintTop_toTopOf="@+id/showTaskListTV"
         app:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

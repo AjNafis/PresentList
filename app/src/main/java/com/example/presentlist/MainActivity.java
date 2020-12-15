@@ -1,7 +1,9 @@
 package com.example.presentlist;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
@@ -11,6 +13,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         EditText tName = findViewById(R.id.et2);
         EditText tDetails = findViewById(R.id.et3);
         Button save = findViewById(R.id.saveBtn);
+        TextView showTaskListTV = findViewById(R.id.showTaskListTV);
         String [] months = {"Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"};
 
         //Creating database
@@ -45,34 +49,16 @@ public class MainActivity extends AppCompatActivity {
         //Remove table if exists, so that we can create it again.
         //db.execSQL("DROP TABLE IF EXISTS listData");
 
-        Cursor _cr = db.rawQuery("SELECT * FROM listData",null);
-        //Creating table only when no tables exist.
-        if (_cr == null) {
-            db.execSQL("CREATE TABLE listData(" +
-                    "date varchar(32)," +
-                    "name varchar(255)," +
-                    "details varchar(255))");
-        }
+        //Create table if it does not exist already.
+        db.execSQL("CREATE TABLE IF NOT EXISTS listData(" +
+                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "date varchar(32)," +
+                "name varchar(255)," +
+                "details varchar(255))");
 
         //Handles arrow clicks on both orientations.
-        Intent goToShowListScreen = new Intent(this, ShowList.class);
         arrow.setOnClickListener(v -> {
-            String results = "";
-            Cursor cr = db.rawQuery("SELECT * FROM listData",null);
-            if(cr.moveToFirst()) {
-                do {
-                    for (int i = 0; i < cr.getColumnCount(); i++) {
-                        results += cr.getString(i) + " ";
-                    }
-                    results += "\n";
-                }
-                while (cr.moveToNext());
-            }
-            cr.close();
-            //If there is no data, we will just pass a string saying there is no data to be shown.
-            results = results == "" ? "No data to show" : results;
-
-            goToShowListScreen.putExtra("ListData",results);
+            Intent goToShowListScreen = new Intent(this, ShowList.class);
             startActivity(goToShowListScreen);
         });
 
@@ -163,6 +149,14 @@ public class MainActivity extends AppCompatActivity {
                     AlertDialog alert = builder.create();
                     alert.show();
                 }
+            }
+        });
+
+        //Handle click on showTaskList TextView
+        showTaskListTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                arrow.performClick();
             }
         });
 
