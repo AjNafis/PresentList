@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GroceryListEntryActivity">
+
+    <TextView
+        android:id="@+id/showTaskListTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        android:text="Show Task List"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/saveBtn"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/ET3"
+        app:layout_constraintTop_toBottomOf="@+id/saveBtn"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/ET2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Set a date"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@+id/TV3"
+        app:layout_constraintStart_toStartOf="@+id/TV2"
+        app:layout_constraintTop_toBottomOf="@+id/TV2" />
+
+    <TextView
+        android:id="@+id/TV2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Best Before"
+        app:layout_constraintBottom_toTopOf="@+id/ET2"
+        app:layout_constraintStart_toStartOf="@+id/ET1"
+        app:layout_constraintTop_toBottomOf="@+id/ET1" />
+
+    <TextView
+        android:id="@+id/TV1_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Item Name"
+        app:layout_constraintBottom_toTopOf="@+id/ET1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.19999999"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <EditText
+        android:id="@+id/ET1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="ex: Beef"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/TV2"
+        app:layout_constraintStart_toStartOf="@+id/TV1_1"
+        app:layout_constraintTop_toBottomOf="@+id/TV1_1" />
+
+    <TextView
+        android:id="@+id/TV3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Category"
+        app:layout_constraintBottom_toTopOf="@+id/ET3"
+        app:layout_constraintStart_toStartOf="@+id/ET2"
+        app:layout_constraintTop_toBottomOf="@+id/ET2" />
+
+    <EditText
+        android:id="@+id/ET3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="ex: Meat"
+        android:inputType="text"
+        android:maxLines="5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/TV3"
+        app:layout_constraintTop_toBottomOf="@+id/TV3" />
+
+    <Button
+        android:id="@+id/saveBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:text="Save"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/ET3"
+        app:layout_constraintTop_toBottomOf="@+id/ET3"
+        app:layout_constraintVertical_bias="0.13" />
+
+    <ImageView
+        android:id="@+id/arrowImageView"
+        android:layout_width="32dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="8dp"
+        android:clickable="true"
+        android:stateListAnimator="@android:anim/fade_out"
+        app:layout_constraintBottom_toBottomOf="@+id/showTaskListTV"
+        app:layout_constraintStart_toEndOf="@+id/showTaskListTV"
+        app:layout_constraintTop_toTopOf="@+id/showTaskListTV"
+        app:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quantity"
+        app:layout_constraintBaseline_toBaselineOf="@+id/TV1_1"
+        app:layout_constraintStart_toStartOf="@+id/ET1_qty" />
+
+    <EditText
+        android:id="@+id/ET1_qty"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:hint="ex: 3"
+        android:inputType="number"
+        app:layout_constraintBaseline_toBaselineOf="@+id/ET1"
+        app:layout_constraintStart_toEndOf="@+id/ET1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

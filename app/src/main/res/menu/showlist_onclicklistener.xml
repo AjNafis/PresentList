@@ -10,4 +10,8 @@
         android:title="Delete"
         app:showAsAction="never"></item>
 
+    <item android:id="@+id/cancel"
+        android:title="Cancel"
+        app:showAsAction="never"></item>
+
 </menu>

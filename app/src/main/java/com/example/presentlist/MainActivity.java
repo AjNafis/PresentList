@@ -1,162 +1,76 @@
 package com.example.presentlist;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
-import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Calendar;
+import android.widget.ProgressBar;
 
 public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onStop() {
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+
+        progressBar.setVisibility(View.INVISIBLE);
+        super.onStop();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageView arrow = findViewById(R.id.imageView);
-        EditText tdate = findViewById(R.id.et1);
-        EditText tName = findViewById(R.id.et2);
-        EditText tDetails = findViewById(R.id.et3);
-        Button save = findViewById(R.id.saveBtn);
-        TextView showTaskListTV = findViewById(R.id.showTaskListTV);
-        String [] months = {"Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"};
+        Button toDoListRoute = findViewById(R.id.taskRouteList);
+        Button groceryListRoute = findViewById(R.id.groceryRouteList);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
 
-        //Creating database
-        SQLiteDatabase db = openOrCreateDatabase("TodoListDb",MODE_PRIVATE,null);
+        //Creating database for To Do List
+        SQLiteDatabase TodoListDb = openOrCreateDatabase("TodoListDb",MODE_PRIVATE,null);
 
         //Remove table if exists, so that we can create it again.
-        //db.execSQL("DROP TABLE IF EXISTS listData");
+        //TodoListDb.execSQL("DROP TABLE IF EXISTS ToDoListDataTable");
 
         //Create table if it does not exist already.
-        db.execSQL("CREATE TABLE IF NOT EXISTS listData(" +
+        TodoListDb.execSQL("CREATE TABLE IF NOT EXISTS ToDoListDataTable(" +
                 "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "date varchar(32)," +
                 "name varchar(255)," +
                 "details varchar(255))");
 
-        //Handles arrow clicks on both orientations.
-        arrow.setOnClickListener(v -> {
-            Intent goToShowListScreen = new Intent(this, ShowList.class);
-            startActivity(goToShowListScreen);
-        });
 
-        //Getting todays date from phone.
-        Calendar current = Calendar.getInstance();
-        int y = current.get(Calendar.YEAR);
-        int m = current.get(Calendar.MONTH);
-        int d = current.get(Calendar.DAY_OF_MONTH);
+        //Creating database for Grocery List
+        SQLiteDatabase GroceryListDb = openOrCreateDatabase("GroceryListDb",MODE_PRIVATE,null);
 
-        //Setting tdate to todays tdate.
-        tdate.setText(d + "-" + months[m] + "-" + y);
+        //Remove table if exists, so that we can create it again.
+        //GroceryListDb.execSQL("DROP TABLE IF EXISTS GroceryListDataTable");
 
+        //Create table if it does not exist already.
+        GroceryListDb.execSQL("CREATE TABLE IF NOT EXISTS GroceryListDataTable(" +
+                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "name varchar(32)," +
+                "quantity varchar(32)," +
+                "bestbeforedate varchar(255)," +
+                "category varchar(255))");
 
-        //Created a DatePicker dialog in order to get tdate from user more conveniently.
-        tdate.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus){
-                //Doing this to hide the keyboard
-                tdate.clearFocus();
-
-                //This opens up the calender Datepicker Dialog.
-                DatePickerDialog sDatePickerDialog;
-                DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        //This sets the edit text box with the selected tdate
-                        tdate.setText(dayOfMonth + "-" + months[month] + "-" + year);
-                    }
-                };
-
-                sDatePickerDialog = new DatePickerDialog(MainActivity.this,listener,y,m,d);
-                sDatePickerDialog.show();
-            }
-        });
-
-        //Handle Save button press.
-        save.setOnClickListener(new View.OnClickListener() {
+        //Handle button click
+        toDoListRoute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(tName.getText().toString().isEmpty()){
-                    tName.setError("Enter Task Name");
-
-                    if(tDetails.getText().toString().isEmpty()){
-                        tDetails.setError("Enter Task Details");
-                    }
-                }
-                else if (tDetails.getText().toString().isEmpty()){
-                    tDetails.setError("Enter Task Details");
-                }
-                else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-
-                    builder.setTitle("Please Confirm");
-                    builder.setMessage( "Date: " + tdate.getText().toString() + "\n" +
-                                        "Task Name: " + tName.getText().toString() + "\n" +
-                                        "Task Details: " + tDetails.getText().toString() + "\n\n" +
-                            "Is this correct?");
-
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int which) {
-                            ContentValues values = new ContentValues();
-                            values.put("date",tdate.getText().toString());
-                            values.put("name",tName.getText().toString());
-                            values.put("details",tDetails.getText().toString());
-
-                            //Insert data into the data base, i used ContentValues class to help me
-                            //put the data into the the row, regula SQL code was not accepting strings as input.
-                            db.insert("ListData",null,values);
-
-                            tdate.setText(d + "-" + months[m] + "-" + y);
-                            tName.setText("");
-                            tDetails.setText("");
-
-                            dialog.dismiss();
-                        }
-                    });
-
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Do nothing
-                            dialog.dismiss();
-                        }
-                    });
-
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                }
+                progressBar.setVisibility(View.VISIBLE);
+                startActivity(new Intent(MainActivity.this, ToDoListEntryActivity.class));
             }
         });
 
-        //Handle click on showTaskList TextView
-        showTaskListTV.setOnClickListener(new View.OnClickListener() {
+        //Handle button click
+        groceryListRoute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arrow.performClick();
+                progressBar.setVisibility(View.VISIBLE);
+                startActivity(new Intent(MainActivity.this, GroceryListEntryActivity.class));
             }
         });
 
@@ -164,33 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    //Creates options menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.et_menu, menu);
-        return true;
-    }
-    //Handles options menu interactions. Send to previous page.
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
-            case R.id.tasklist:
 
-                ImageView arrow = findViewById(R.id.imageView);
-                arrow.performClick();
-                return true;
-
-            case R.id.taskinputscreen:
-                Toast.makeText(this, "You are currently on the task input screen", Toast.LENGTH_SHORT).show();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-
-        }
-    }
 
 
 }

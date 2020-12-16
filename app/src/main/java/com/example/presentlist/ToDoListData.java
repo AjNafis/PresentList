@@ -1,8 +1,9 @@
 package com.example.presentlist;
 
-public class ListData {
+public class ToDoListData {
+    public String ID;
     public String Date;
     public String Name;
     public String Details;
-    public String ID;
+
 }

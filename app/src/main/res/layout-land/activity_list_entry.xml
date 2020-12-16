@@ -2,13 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/showTaskListTV"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ToDoListEntryActivity">
 
     <EditText
-        android:id="@+id/et2"
+        android:id="@+id/ET2"
         android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -24,18 +23,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Task Name"
-        app:layout_constraintBottom_toTopOf="@+id/et2"
-        app:layout_constraintStart_toStartOf="@+id/et1"
-        app:layout_constraintTop_toBottomOf="@+id/et1" />
+        app:layout_constraintBottom_toTopOf="@+id/ET2"
+        app:layout_constraintStart_toStartOf="@+id/ET1"
+        app:layout_constraintTop_toBottomOf="@+id/ET1" />
 
     <TextView
-        android:id="@+id/headerTV"
+        android:id="@+id/option1TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Task Entry "
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/TV1"
+        app:layout_constraintBottom_toTopOf="@+id/TV1_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,26 +43,26 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/TV1"
+        android:id="@+id/TV1_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:text="Task Date/Time"
-        app:layout_constraintBottom_toTopOf="@+id/et1"
+        app:layout_constraintBottom_toTopOf="@+id/ET1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerTV" />
+        app:layout_constraintTop_toBottomOf="@+id/option1TV" />
 
     <EditText
-        android:id="@+id/et1"
+        android:id="@+id/ET1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Set a date"
         android:inputType="date"
         app:layout_constraintBottom_toTopOf="@+id/TV2"
-        app:layout_constraintStart_toStartOf="@+id/TV1"
-        app:layout_constraintTop_toBottomOf="@+id/TV1" />
+        app:layout_constraintStart_toStartOf="@+id/TV1_1"
+        app:layout_constraintTop_toBottomOf="@+id/TV1_1" />
 
     <TextView
         android:id="@+id/TV3"
@@ -71,12 +70,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Task Details"
-        app:layout_constraintBottom_toTopOf="@+id/et3"
-        app:layout_constraintStart_toStartOf="@+id/et2"
-        app:layout_constraintTop_toBottomOf="@+id/et2" />
+        app:layout_constraintBottom_toTopOf="@+id/ET3"
+        app:layout_constraintStart_toStartOf="@+id/ET2"
+        app:layout_constraintTop_toBottomOf="@+id/ET2" />
 
     <EditText
-        android:id="@+id/et3"
+        android:id="@+id/ET3"
         android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -95,13 +94,13 @@
         android:layout_marginEnd="32dp"
         android:text="Save"
         android:textColor="@color/white"
-        app:layout_constraintBaseline_toBaselineOf="@+id/et3"
+        app:layout_constraintBaseline_toBaselineOf="@+id/ET3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/arrowImageView"
         android:layout_width="39dp"
         android:layout_height="34dp"
         android:layout_marginEnd="16dp"
@@ -118,8 +117,9 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:text="Show Task List"
-        app:layout_constraintBaseline_toBaselineOf="@+id/headerTV"
+        app:layout_constraintBaseline_toBaselineOf="@+id/option1TV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.58"
-        app:layout_constraintStart_toEndOf="@+id/headerTV" />
+        app:layout_constraintStart_toEndOf="@+id/option1TV" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
