@@ -1,4 +1,4 @@
-package com.example.presentlist;
+package com.example.presentlist.ToDoList;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.presentlist.R;
 
 import java.util.Calendar;
 

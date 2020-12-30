@@ -5,7 +5,7 @@
     android:id="@+id/cLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GroceryListEntryActivity">
+    tools:context=".GroceryList.GroceryListEntryActivity">
 
     <TextView
         android:id="@+id/showTaskListTV"

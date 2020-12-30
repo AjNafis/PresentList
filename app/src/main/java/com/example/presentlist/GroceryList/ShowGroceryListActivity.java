@@ -1,4 +1,4 @@
-package com.example.presentlist;
+package com.example.presentlist.GroceryList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,34 +16,35 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.example.presentlist.R;
+
 import java.util.ArrayList;
 
-public class ShowToDoListActivity extends AppCompatActivity {
-
-
+public class ShowGroceryListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_todolist);
+        setContentView(R.layout.activity_show_grocery_list);
+
 
         ListView listView = findViewById(R.id.listView);
 
         //This creates the back button on the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Task List");
+        getSupportActionBar().setTitle("Grocery List");
 
         //Opening database - this is safe and we do not need to create table since the only way
         //to get to this activity is throught he main activity and the main activity will always
         //check and create a table.
-        SQLiteDatabase db = openOrCreateDatabase("TodoListDb",MODE_PRIVATE,null);
+        SQLiteDatabase db = openOrCreateDatabase("GroceryListDb",MODE_PRIVATE,null);
 
         // We will store table data into this list
         ArrayList<String> listData_list = new ArrayList<>();
 
         //Moving data from the table to a list.
         String tableRow = "";
-        Cursor cr = db.rawQuery("SELECT * FROM ToDoListDataTable",null);
+        Cursor cr = db.rawQuery("SELECT * FROM GroceryListDataTable",null);
         if(cr.moveToFirst()) {
             do {
                 for (int i = 0; i < cr.getColumnCount(); i++) {
@@ -60,24 +61,26 @@ public class ShowToDoListActivity extends AppCompatActivity {
         ArrayList<String> listView_list = new ArrayList<>();
 
         //Setting up adapter to send ArrayList data to listView
-        ArrayAdapter adapter = new ArrayAdapter(ShowToDoListActivity.this,android.R.layout.simple_list_item_1, listView_list);
+        ArrayAdapter adapter = new ArrayAdapter(ShowGroceryListActivity.this,android.R.layout.simple_list_item_1, listView_list);
         listView.setAdapter(adapter);
 
         String [] _str;
         if (listData_list.size() != 0) {
             for (String data : listData_list){
 
-                ToDoListData listData = new ToDoListData();
+                GroceryListData listData = new GroceryListData();
                 _str = data.split("_!_");
                 listData.ID = _str[0];
-                listData.Date = _str[1];
-                listData.Name = _str[2];
-                listData.Details = _str [3];
+                listData.Name = _str[1];
+                listData.Qty = _str[2];
+                listData.BestBeforeDate = _str[3];
+                listData.Category = _str [4];
 
 
-                listView_list.add(  "\nDate: " + listData.Date + "\n\n" +
-                                    "Task Name: " + listData.Name + "\n" +
-                                    "Task Details: " + listData.Details + "\n");
+                listView_list.add(  "\nName: " + listData.Name + "\n" +
+                                    "Quantity: " + listData.Qty + "\n" +
+                                    "Category: " + listData.Category + "\n\n" +
+                                    "Best Before: " + listData.BestBeforeDate + "\n" );
             }
         } else {
             listView_list.add("No data to show");
@@ -89,7 +92,7 @@ public class ShowToDoListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PopupMenu popup = new PopupMenu(ShowToDoListActivity.this, view);
+                PopupMenu popup = new PopupMenu(ShowGroceryListActivity.this, view);
                 MenuInflater inflater = popup.getMenuInflater();
                 inflater.inflate(R.menu.showlist_onclicklistener, popup.getMenu());
                 popup.show();
@@ -100,7 +103,7 @@ public class ShowToDoListActivity extends AppCompatActivity {
                             case R.id.delete:
                                 String [] _str = listData_list.get(position).split("_!_");
                                 db.delete("GroceryListDataTable", "id" + "=" + Integer.parseInt(_str[0]) , null);
-                                startActivity(new Intent(ShowToDoListActivity.this,ShowToDoListActivity.class));
+                                startActivity(new Intent(ShowGroceryListActivity.this,ShowGroceryListActivity.class));
                                 finish();
 
                         }
@@ -111,11 +114,13 @@ public class ShowToDoListActivity extends AppCompatActivity {
             }
         });
 
+
+
         //Creates popupmenu when you click on listViewItem  -Just testing - So far does nothing.
         listView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                PopupMenu popup = new PopupMenu(ShowToDoListActivity.this, v);
+                PopupMenu popup = new PopupMenu(ShowGroceryListActivity.this, v);
                 MenuInflater inflater = popup.getMenuInflater();
                 inflater.inflate(R.menu.et_menu, popup.getMenu());
                 popup.show();
@@ -125,7 +130,6 @@ public class ShowToDoListActivity extends AppCompatActivity {
         });
 
     }
-
 
     //This handles the back button on the action bar.
     @Override
@@ -159,4 +163,6 @@ public class ShowToDoListActivity extends AppCompatActivity {
 
         }
     }
+
+
 }

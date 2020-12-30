@@ -1,4 +1,4 @@
-package com.example.presentlist;
+package com.example.presentlist.MainMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+
+import com.example.presentlist.GroceryList.GroceryListEntryActivity;
+import com.example.presentlist.R;
+import com.example.presentlist.ToDoList.ToDoListEntryActivity;
 
 public class MainActivity extends AppCompatActivity {
 
