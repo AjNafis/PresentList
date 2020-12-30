@@ -9,11 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.example.presentlist.GroceryList.GroceryListEntryActivity;
 import com.example.presentlist.R;
-import com.example.presentlist.ToDoList.ToDoListEntryActivity;
+import com.example.presentlist.ToDoList.dataEntry_Activity;
 
-public class MainActivity extends AppCompatActivity {
+public class mainMenu_Activity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_screen);
 
         Button toDoListRoute = findViewById(R.id.taskRouteList);
         Button groceryListRoute = findViewById(R.id.groceryRouteList);
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                startActivity(new Intent(MainActivity.this, ToDoListEntryActivity.class));
+                startActivity(new Intent(mainMenu_Activity.this, dataEntry_Activity.class));
             }
         });
 
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                startActivity(new Intent(MainActivity.this, GroceryListEntryActivity.class));
+                startActivity(new Intent(mainMenu_Activity.this, com.example.presentlist.GroceryList.dataEntry_Activity.class));
             }
         });
 

@@ -27,7 +27,7 @@ import com.example.presentlist.R;
 
 import java.util.Calendar;
 
-public class GroceryListEntryActivity extends AppCompatActivity {
+public class dataEntry_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class GroceryListEntryActivity extends AppCompatActivity {
 
         //Handles arrow clicks on both orientations.
         arrow.setOnClickListener(v -> {
-            Intent goToShowListScreen = new Intent(GroceryListEntryActivity.this, ShowGroceryListActivity.class);
+            Intent goToShowListScreen = new Intent(dataEntry_Activity.this, showData_Activity.class);
             startActivity(goToShowListScreen);
         });
 
@@ -94,7 +94,7 @@ public class GroceryListEntryActivity extends AppCompatActivity {
                     }
                 };
 
-                sDatePickerDialog = new DatePickerDialog(GroceryListEntryActivity.this,listener,y,m,d);
+                sDatePickerDialog = new DatePickerDialog(dataEntry_Activity.this,listener,y,m,d);
                 sDatePickerDialog.show();
             }
         });
@@ -103,12 +103,12 @@ public class GroceryListEntryActivity extends AppCompatActivity {
         cLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) GroceryListEntryActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) dataEntry_Activity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
                 //Find the currently focused view, so we can grab the correct window token from it.
-                View view = GroceryListEntryActivity.this.getCurrentFocus();
+                View view = dataEntry_Activity.this.getCurrentFocus();
                 //If no view currently has focus, create a new one, just so we can grab a window token from it
                 if (view == null) {
-                    view = new View(GroceryListEntryActivity.this);
+                    view = new View(dataEntry_Activity.this);
                 }
                 else{
                     view.clearFocus();
@@ -123,13 +123,13 @@ public class GroceryListEntryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Checks to make sure that all EditText fields have data.
                 boolean flag1 = false, flag2 = false, flag3 = false;
-                flag1 = !tItemName.getText().toString().isEmpty();  //  Needs to be tested
-                flag2 = !tQty.getText().toString().isEmpty();       //          ^
-                flag3 = !tCategory.getText().toString().isEmpty();  //          ^
+                flag1 = !tItemName.getText().toString().isEmpty();
+                flag2 = !tQty.getText().toString().isEmpty();
+                flag3 = !tCategory.getText().toString().isEmpty();
 
                 if (flag1 && flag2 && flag3){
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(GroceryListEntryActivity.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(dataEntry_Activity.this);
 
                     builder.setTitle("Please Confirm");
                     builder.setMessage( "Item Name : " + tItemName.getText().toString().trim() + "\n" +

@@ -9,11 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PresentList">
-        <activity android:name=".GroceryList.ShowGroceryListActivity"></activity>
-        <activity android:name=".GroceryList.GroceryListEntryActivity" />
-        <activity android:name=".ToDoList.ToDoListEntryActivity" />
-        <activity android:name=".ToDoList.ShowToDoListActivity" />
-        <activity android:name=".MainMenu.MainActivity">
+        <activity android:name=".GroceryList.showData_Activity"></activity>
+        <activity android:name=".GroceryList.dataEntry_Activity" />
+        <activity android:name=".ToDoList.dataEntry_Activity" />
+        <activity android:name=".ToDoList.showData_Activity" />
+        <activity android:name=".MainMenu.mainMenu_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

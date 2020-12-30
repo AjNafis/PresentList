@@ -27,12 +27,12 @@ import com.example.presentlist.R;
 
 import java.util.Calendar;
 
-public class ToDoListEntryActivity extends AppCompatActivity {
+public class dataEntry_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_entry);
+        setContentView(R.layout.activity_todo_list_entry);
 
         //This creates the back button on the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -51,7 +51,7 @@ public class ToDoListEntryActivity extends AppCompatActivity {
 
         //Handles arrow clicks on both orientations.
         arrow.setOnClickListener(v -> {
-            Intent goToShowListScreen = new Intent(ToDoListEntryActivity.this, ShowToDoListActivity.class);
+            Intent goToShowListScreen = new Intent(dataEntry_Activity.this, showData_Activity.class);
             startActivity(goToShowListScreen);
         });
 
@@ -81,7 +81,7 @@ public class ToDoListEntryActivity extends AppCompatActivity {
                     }
                 };
 
-                sDatePickerDialog = new DatePickerDialog(ToDoListEntryActivity.this,listener,y,m,d);
+                sDatePickerDialog = new DatePickerDialog(dataEntry_Activity.this,listener,y,m,d);
                 sDatePickerDialog.show();
             }
         });
@@ -90,12 +90,12 @@ public class ToDoListEntryActivity extends AppCompatActivity {
         cLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) ToDoListEntryActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) dataEntry_Activity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
                 //Find the currently focused view, so we can grab the correct window token from it.
-                View view = ToDoListEntryActivity.this.getCurrentFocus();
+                View view = dataEntry_Activity.this.getCurrentFocus();
                 //If no view currently has focus, create a new one, just so we can grab a window token from it
                 if (view == null) {
-                    view = new View(ToDoListEntryActivity.this);
+                    view = new View(dataEntry_Activity.this);
                 }
                 else{
                     view.clearFocus();
@@ -124,24 +124,19 @@ public class ToDoListEntryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(tName.getText().toString().isEmpty()){
-                    tName.setError("Enter Task Name");
+                //Checks to make sure that all EditText fields have data.
+                boolean flag1 = false, flag2 = false;
+                flag1 = !tName.getText().toString().isEmpty();
+                flag2 = !tDetails.getText().toString().isEmpty();
 
-                    if(tDetails.getText().toString().isEmpty()){
-                        tDetails.setError("Enter Task Details");
-                    }
-                }
-                else if (tDetails.getText().toString().isEmpty()){
-                    tDetails.setError("Enter Task Details");
-                }
-                else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ToDoListEntryActivity.this);
+                if (flag1 && flag2){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(dataEntry_Activity.this);
 
                     builder.setTitle("Please Confirm");
                     builder.setMessage( "Date: " + tdate.getText().toString().trim() + "\n" +
-                                        "Task Name: " + tName.getText().toString().trim() + "\n" +
-                                        "Task Details: " + tDetails.getText().toString().trim() + "\n\n" +
-                                        "Is this correct?");
+                            "Task Name: " + tName.getText().toString().trim() + "\n" +
+                            "Task Details: " + tDetails.getText().toString().trim() + "\n\n" +
+                            "Is this correct?");
 
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
@@ -174,6 +169,10 @@ public class ToDoListEntryActivity extends AppCompatActivity {
 
                     AlertDialog alert = builder.create();
                     alert.show();
+                }
+                else {
+                    if (!flag1) tName.setError("Enter Task Name");
+                    if (!flag2) tDetails.setError("Enter Task Details");
                 }
             }
         });

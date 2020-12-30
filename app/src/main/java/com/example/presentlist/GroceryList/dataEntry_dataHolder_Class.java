@@ -1,6 +1,6 @@
 package com.example.presentlist.GroceryList;
 
-public class GroceryListData {
+public class dataEntry_dataHolder_Class {
 
     public String ID;
     public String Name;
