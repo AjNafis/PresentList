@@ -6,20 +6,37 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:screenOrientation="portrait"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.PresentList">
-        <activity android:name=".NotesList.showData_Activity"></activity>
-        <activity android:name=".NotesList.dataEntry_Activity" />
-        <activity android:name=".GroceryList.showData_Activity" />
-        <activity android:name=".GroceryList.dataEntry_Activity" />
-        <activity android:name=".ToDoList.dataEntry_Activity" />
-        <activity android:name=".ToDoList.showData_Activity" />
-        <activity android:name=".MainMenu.mainMenu_Activity">
+        <activity
+            android:name=".NotesList.showData_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".NotesList.dataEntry_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GroceryList.showData_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GroceryList.dataEntry_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ToDoList.dataEntry_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ToDoList.showData_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainMenu.mainMenu_Activity"
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action
+                    android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

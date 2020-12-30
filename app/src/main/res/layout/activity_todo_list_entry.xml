@@ -8,7 +8,7 @@
     tools:context="com.example.MillenApp.ToDoList.dataEntry_Activity">
 
     <TextView
-        android:id="@+id/showTaskListTV"
+        android:id="@+id/showListTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -110,9 +110,9 @@
         android:layout_marginStart="8dp"
         android:clickable="true"
         android:stateListAnimator="@android:anim/fade_out"
-        app:layout_constraintBottom_toBottomOf="@+id/showTaskListTV"
-        app:layout_constraintStart_toEndOf="@+id/showTaskListTV"
-        app:layout_constraintTop_toTopOf="@+id/showTaskListTV"
+        app:layout_constraintBottom_toBottomOf="@+id/showListTV"
+        app:layout_constraintStart_toEndOf="@+id/showListTV"
+        app:layout_constraintTop_toTopOf="@+id/showListTV"
         app:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

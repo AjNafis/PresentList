@@ -36,7 +36,7 @@ public class dataEntry_Activity extends AppCompatActivity {
 
         //This creates the back button on the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Task Entry");
+        getSupportActionBar().setTitle("Grocery Item Entry");
 
         //Need to fix naming conflict with layout from activity_list_entry
         EditText tItemName = findViewById(R.id.ET1);
@@ -46,7 +46,7 @@ public class dataEntry_Activity extends AppCompatActivity {
         EditText tQty = findViewById(R.id.ET1_qty);
         ImageView arrow = findViewById(R.id.arrowImageView);
         Button save = findViewById(R.id.saveBtn);
-        TextView showTaskListTV = findViewById(R.id.showTaskListTV);
+        TextView showTaskListTV = findViewById(R.id.showListTV);
         ConstraintLayout cLayout = findViewById(R.id.cLayout);
         String [] months = {"Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"};
 

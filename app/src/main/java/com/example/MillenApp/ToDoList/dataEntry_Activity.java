@@ -43,7 +43,7 @@ public class dataEntry_Activity extends AppCompatActivity {
         EditText tName = findViewById(R.id.ET2);
         EditText tDetails = findViewById(R.id.ET3);
         Button save = findViewById(R.id.saveBtn);
-        TextView showTaskListTV = findViewById(R.id.showTaskListTV);
+        TextView showListTV = findViewById(R.id.showListTV);
         ConstraintLayout cLayout = findViewById(R.id.cLayout);
         String [] months = {"Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"};
 
@@ -106,9 +106,6 @@ public class dataEntry_Activity extends AppCompatActivity {
 
         //Creating database
         SQLiteDatabase db = openOrCreateDatabase("TodoListDb",MODE_PRIVATE,null);
-
-        //Remove table if exists, so that we can create it again.
-        //db.execSQL("DROP TABLE IF EXISTS listData");
 
         //Create table if it does not exist already. TABLE NAME IS USE IN MULTIPLE PLACES,
         //THEY WILL NOT ALL CHANGE if YOU JUST CHANGE IT HERE.
@@ -178,7 +175,7 @@ public class dataEntry_Activity extends AppCompatActivity {
         });
 
         //Handle click on showTaskList TextView
-        showTaskListTV.setOnClickListener(new View.OnClickListener() {
+        showListTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 arrow.performClick();

@@ -6,10 +6,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.MillenApp.R;
 
@@ -25,11 +29,19 @@ public class mainMenu_Activity extends AppCompatActivity {
     SQLiteDatabase GroceryListDb;
     SQLiteDatabase NotesListDb;
 
+    ProgressBar progressBar;
     TextView summaryView;
     String summary;
 
+    Button toDoListRoute;
+    Button groceryListRoute;
+    Button notesListRoute;
+
+
+
     protected void onResume() {
         setDataSummary();
+        buttonAnimation();
         super.onResume();
     }
 
@@ -48,70 +60,22 @@ public class mainMenu_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
-        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
 
-        //Creating/Opening database for To Do List
-        TodoListDb = openOrCreateDatabase("TodoListDb",MODE_PRIVATE,null);
-        //Create table if it does not exist already.
-        TodoListDb.execSQL("CREATE TABLE IF NOT EXISTS ToDoListDataTable(" +
-                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                "date varchar(32)," +
-                "name varchar(255)," +
-                "details varchar(255))");
+        HorizontalScrollView hor = findViewById(R.id.horizontalScrollView);
+        hor.clearAnimation();
+        hor.clearFocus();
+        //Func will create or open all tables.
+        createOrOpenTables();
 
-
-        //Handle button click
-        Button toDoListRoute = findViewById(R.id.toDoRouteList);
-        toDoListRoute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                startActivity(new Intent(mainMenu_Activity.this, com.example.MillenApp.ToDoList.dataEntry_Activity.class));
-            }
-        });
-
-        //Creating/Opening  database for Grocery List
-        GroceryListDb = openOrCreateDatabase("GroceryListDb",MODE_PRIVATE,null);
-        //Create table if it does not exist already.
-        GroceryListDb.execSQL("CREATE TABLE IF NOT EXISTS GroceryListDataTable(" +
-                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                "name varchar(32)," +
-                "quantity varchar(32)," +
-                "bestbeforedate varchar(255)," +
-                "category varchar(255))");
-
-
-        //Handle button click
-        Button groceryListRoute = findViewById(R.id.groceryRouteList);
-        groceryListRoute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                startActivity(new Intent(mainMenu_Activity.this, com.example.MillenApp.GroceryList.dataEntry_Activity.class));
-            }
-        });
-
-        //Creating/opening database for Grocery List
-        NotesListDb = openOrCreateDatabase("NotesListDb",MODE_PRIVATE,null);
-        //Create table if it does not exist already.
-        NotesListDb.execSQL("CREATE TABLE IF NOT EXISTS NotesListDataTable(" +
-                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                "date varchar(32)," +
-                "type varchar(255)," +
-                "details varchar(255))");
-
-        //Handle button click
-        Button notesListRoute = findViewById(R.id.notesRouteList);
-        notesListRoute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                startActivity(new Intent(mainMenu_Activity.this, com.example.MillenApp.NotesList.dataEntry_Activity.class));
-            }
-        });
+        // This handles all available button click.
+        buttonClickHandlers();
 
         //Calling function to get/set DataSummary.
         setDataSummary();
+
+        buttonAnimation();
+
 
     }
 
@@ -122,15 +86,15 @@ public class mainMenu_Activity extends AppCompatActivity {
         //We are doing this to keep track of how many rows are present in the database for each individual list.
         Cursor cr = TodoListDb.rawQuery("SELECT COUNT(ID) FROM ToDoListDataTable",null);
         cr.moveToFirst();
-        totalRows.add("You have " + cr.getString(0) + " ToDo items," );
+        totalRows.add("You have " + cr.getString(0) + " ToDo " + (Integer.parseInt(cr.getString(0)) > 1 ? "items" : "item" ));
 
         cr = GroceryListDb.rawQuery("SELECT COUNT(*) FROM GroceryListDataTable",null);
         cr.moveToFirst();
-        totalRows.add("You have " + cr.getString(0) + " Grocery items," );
+        totalRows.add("You have " + cr.getString(0) + " Grocery " + (Integer.parseInt(cr.getString(0)) > 1 ? "items" : "item" ));
 
         cr = NotesListDb.rawQuery("SELECT COUNT(*) FROM NotesListDataTable",null);
         cr.moveToFirst();
-        totalRows.add("You have " + cr.getString(0) + " Notes." );
+        totalRows.add("You have " + cr.getString(0) + (Integer.parseInt(cr.getString(0)) > 1 ? " Notes." : " Note.")) ;
 
         cr.close();
         summaryView = findViewById(R.id.summaryTV);
@@ -143,10 +107,155 @@ public class mainMenu_Activity extends AppCompatActivity {
 
     }
 
+    public void createOrOpenTables(){
+
+        //Creating/Opening database for To Do List
+        TodoListDb = openOrCreateDatabase("TodoListDb",MODE_PRIVATE,null);
+        //Create table if it does not exist already.
+        TodoListDb.execSQL("CREATE TABLE IF NOT EXISTS ToDoListDataTable(" +
+                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "date varchar(32)," +
+                "name varchar(255)," +
+                "details varchar(255))");
+
+        //Creating/Opening  database for Grocery List
+        GroceryListDb = openOrCreateDatabase("GroceryListDb",MODE_PRIVATE,null);
+        //Create table if it does not exist already.
+        GroceryListDb.execSQL("CREATE TABLE IF NOT EXISTS GroceryListDataTable(" +
+                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "name varchar(32)," +
+                "quantity varchar(32)," +
+                "bestbeforedate varchar(255)," +
+                "category varchar(255))");
+
+        //Creating/opening database for Grocery List
+        NotesListDb = openOrCreateDatabase("NotesListDb",MODE_PRIVATE,null);
+        //Create table if it does not exist already.
+        NotesListDb.execSQL("CREATE TABLE IF NOT EXISTS NotesListDataTable(" +
+                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "date varchar(32)," +
+                "type varchar(255)," +
+                "details varchar(255))");
 
 
+    }
+
+    public void buttonClickHandlers() {
+
+        toDoListRoute = findViewById(R.id.toDoRouteList);
+        toDoListRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                startActivity(new Intent(mainMenu_Activity.this, com.example.MillenApp.ToDoList.dataEntry_Activity.class));
+            }
+        });
+
+        groceryListRoute = findViewById(R.id.groceryRouteList);
+        groceryListRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                startActivity(new Intent(mainMenu_Activity.this, com.example.MillenApp.GroceryList.dataEntry_Activity.class));
+            }
+        });
+
+        notesListRoute = findViewById(R.id.notesRouteList);
+        notesListRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                startActivity(new Intent(mainMenu_Activity.this, com.example.MillenApp.NotesList.dataEntry_Activity.class));
+            }
+        });
+
+        Button thingsToBuyRoute = findViewById(R.id.thingsToBuyRouteList);
+        thingsToBuyRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mainMenu_Activity.this, "Feature unavailable", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button workOutRoute = findViewById(R.id.workOutRouteList);
+        workOutRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mainMenu_Activity.this, "Feature unavailable", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button movies2watchRoute = findViewById(R.id.movieRouteList);
+        movies2watchRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mainMenu_Activity.this, "Feature unavailable", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button expensesRoute = findViewById(R.id.expensesRouteList);
+        expensesRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mainMenu_Activity.this, "Feature unavailable", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button stockProtfolioRoute = findViewById(R.id.stockRouteList);
+        stockProtfolioRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mainMenu_Activity.this, "Feature unavailable", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
+    }
+
+    //I created a small animation to focus the users attention towards the buttons.
+    public void buttonAnimation(){
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+
+        int delayMillis = 200;
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                buttonAnimationhelper(toDoListRoute,toDoListRoute);
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            buttonAnimationhelper(toDoListRoute,notesListRoute);
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    buttonAnimationhelper(notesListRoute,groceryListRoute);
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            buttonAnimationhelper(groceryListRoute,true);
+                                        }
+                                    }, delayMillis);
+                                }
+                            }, delayMillis);
+                        }
+                    }, delayMillis);
+            }
+        }, 3000);
+    }
+    public void buttonAnimationhelper (Button Btn, Button nxtBtn ) {
+
+        Btn.clearFocus();
+        Btn.setFocusableInTouchMode(false);
+        nxtBtn.setFocusableInTouchMode(true);
+        nxtBtn.requestFocus();
+    }
+    public void buttonAnimationhelper (Button Btn, boolean isLast ) {
+        if (isLast)
+        Btn.clearFocus();
+        Btn.setFocusableInTouchMode(false);
+    }
 
 
 }

@@ -112,12 +112,22 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/ExpensesRouteList"
+                    android:id="@+id/expensesRouteList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
                     android:backgroundTint="#3A3939"
                     android:text="Expenses List" />
+
+                <Button
+                    android:id="@+id/stockRouteList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:backgroundTint="#3A3939"
+                    android:text="Stock Exchange Holdings List" />
             </LinearLayout>
 
         </LinearLayout>
