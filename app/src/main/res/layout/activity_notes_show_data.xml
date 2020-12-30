@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context="com.example.MillenApp.NotesList.showData_Activity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNotes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="190dp"
+        tools:layout_editor_absoluteY="227dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

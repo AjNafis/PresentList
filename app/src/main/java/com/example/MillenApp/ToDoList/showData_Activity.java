@@ -41,13 +41,11 @@ public class showData_Activity extends AppCompatActivity {
         SQLiteDatabase db = openOrCreateDatabase("TodoListDb",MODE_PRIVATE,null);
 
         //We will store the entire table data into our custom built object arrayList.
-        ArrayList<DataObj> dataObjArrayList= new ArrayList<>();
+        ArrayList<DataObj> dataObjArrayList = new ArrayList<>();
 
         Cursor cr = db.rawQuery("SELECT * FROM ToDoListDataTable ORDER BY name",null);
-        int counter = 0;
         if(cr.moveToFirst()) {
             do {
-
                 ArrayList<String> row = new ArrayList<>();
 
                 for (int i = 0; i < cr.getColumnCount(); i++) {

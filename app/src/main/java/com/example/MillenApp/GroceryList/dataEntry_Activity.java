@@ -10,6 +10,7 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +31,15 @@ import java.util.Calendar;
 public class dataEntry_Activity extends AppCompatActivity {
 
     @Override
+    protected void onStop(){
+        arrow.clearColorFilter();
+        super.onStop();
+    }
+
+    //Arrow controls activity change.
+    ImageView arrow;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grocery_list_entry);
@@ -44,7 +54,7 @@ public class dataEntry_Activity extends AppCompatActivity {
         EditText tCategory = findViewById(R.id.ET3);
 
         EditText tQty = findViewById(R.id.ET1_qty);
-        ImageView arrow = findViewById(R.id.arrowImageView);
+        arrow = findViewById(R.id.arrowImageView);
         Button save = findViewById(R.id.saveBtn);
         TextView showTaskListTV = findViewById(R.id.showListTV);
         ConstraintLayout cLayout = findViewById(R.id.cLayout);
@@ -66,6 +76,7 @@ public class dataEntry_Activity extends AppCompatActivity {
 
         //Handles arrow clicks on both orientations.
         arrow.setOnClickListener(v -> {
+            arrow.setColorFilter(Color.RED);
             Intent goToShowListScreen = new Intent(dataEntry_Activity.this, showData_Activity.class);
             startActivity(goToShowListScreen);
         });
@@ -148,8 +159,14 @@ public class dataEntry_Activity extends AppCompatActivity {
                             values.put("category",tCategory.getText().toString().trim());
 
                             //Insert data into the data base, i used ContentValues class to help me
-                            //put the data into the the row, regula SQL code was not accepting strings as input.
-                            db.insert("GroceryListDataTable",null,values);
+                            //put the data into the the row, regular SQL code was not accepting strings as input.
+                            try {
+                                db.insert("GroceryListDataTable",null,values);
+                                Toast.makeText(dataEntry_Activity.this, "Save Successful", Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(dataEntry_Activity.this, "Save Failed", Toast.LENGTH_SHORT).show();
+                            }
 
                             tItemName.setText("");
                             tQty.setText("");

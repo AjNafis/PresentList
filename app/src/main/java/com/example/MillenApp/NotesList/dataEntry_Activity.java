@@ -10,6 +10,7 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,15 @@ import java.util.Calendar;
 public class dataEntry_Activity extends AppCompatActivity {
 
     @Override
+    protected void onStop(){
+        arrow.clearColorFilter();
+        super.onStop();
+    }
+
+    //Arrow controls activity change.
+    ImageView arrow;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_data_entry);
@@ -39,7 +49,7 @@ public class dataEntry_Activity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Enter Note");
 
-        ImageView arrow = findViewById(R.id.arrowImageView);
+        arrow = findViewById(R.id.arrowImageView);
         EditText tdate = findViewById(R.id.dateET);
         EditText tType = findViewById(R.id.noteTypeET);
         EditText tDetails = findViewById(R.id.noteDetailsET);
@@ -50,6 +60,7 @@ public class dataEntry_Activity extends AppCompatActivity {
 
         //Handles arrow clicks on both orientations.
         arrow.setOnClickListener(v -> {
+            arrow.setColorFilter(Color.RED);
             Intent goToShowListScreen = new Intent(com.example.MillenApp.NotesList.dataEntry_Activity.this, com.example.MillenApp.NotesList.showData_Activity.class);
             startActivity(goToShowListScreen);
         });
@@ -141,7 +152,13 @@ public class dataEntry_Activity extends AppCompatActivity {
 
                             //Insert data into the data base, I used ContentValues class to help me
                             //put the data into the the row, regula SQL code was not accepting strings as input.
-                            db.insert("NotesListDataTable",null,values);
+                            try {
+                                db.insert("NotesListDataTable",null,values);
+                                Toast.makeText(com.example.MillenApp.NotesList.dataEntry_Activity.this, "Save Successful", Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(com.example.MillenApp.NotesList.dataEntry_Activity.this, "Save Failed", Toast.LENGTH_SHORT).show();
+                            }
 
                             tdate.setText(d + "-" + months[m] + "-" + y);
                             tType.setText("");
