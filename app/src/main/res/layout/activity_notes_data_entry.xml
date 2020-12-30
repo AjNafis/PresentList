@@ -14,20 +14,20 @@
         android:layout_marginTop="48dp"
         android:layout_marginEnd="16dp"
         android:clickable="true"
-        android:text="Show Task List"
+        android:text="Show Notes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/saveBtn"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/ET3"
+        app:layout_constraintStart_toStartOf="@+id/noteDetailsET"
         app:layout_constraintTop_toBottomOf="@+id/saveBtn"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/ET2"
+        android:id="@+id/noteTypeET"
         android:layout_width="345dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="ex: Clean Driveway"
+        android:hint="ex: Dev"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/TV3"
         app:layout_constraintStart_toStartOf="@+id/TV2"
@@ -38,25 +38,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Task Name"
-        app:layout_constraintBottom_toTopOf="@+id/ET2"
-        app:layout_constraintStart_toStartOf="@+id/ET1"
-        app:layout_constraintTop_toBottomOf="@+id/ET1" />
+        android:text="Note Type"
+        app:layout_constraintBottom_toTopOf="@+id/noteTypeET"
+        app:layout_constraintStart_toStartOf="@+id/dateET"
+        app:layout_constraintTop_toBottomOf="@+id/dateET" />
 
     <TextView
         android:id="@+id/TV1_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:text="Task Date"
-        app:layout_constraintBottom_toTopOf="@+id/ET1"
+        android:text="Note Date"
+        app:layout_constraintBottom_toTopOf="@+id/dateET"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.19999999"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <EditText
-        android:id="@+id/ET1"
+        android:id="@+id/dateET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -71,19 +71,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Task Details"
-        app:layout_constraintBottom_toTopOf="@+id/ET3"
-        app:layout_constraintStart_toStartOf="@+id/ET2"
-        app:layout_constraintTop_toBottomOf="@+id/ET2" />
+        android:text="Note Details"
+        app:layout_constraintBottom_toTopOf="@+id/noteDetailsET"
+        app:layout_constraintStart_toStartOf="@+id/noteTypeET"
+        app:layout_constraintTop_toBottomOf="@+id/noteTypeET" />
 
     <EditText
-        android:id="@+id/ET3"
+        android:id="@+id/noteDetailsET"
         android:layout_width="345dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="ex: Snowblower is in shed"
+        android:hint="ex: Add a new textView"
         android:inputType="textMultiLine"
+        android:maxLength="255"
         android:maxLines="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/TV3"
@@ -97,10 +98,10 @@
         android:text="Save"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/ET3"
+        app:layout_constraintEnd_toEndOf="@+id/noteDetailsET"
         app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="@+id/ET3"
-        app:layout_constraintTop_toBottomOf="@+id/ET3"
+        app:layout_constraintStart_toStartOf="@+id/noteDetailsET"
+        app:layout_constraintTop_toBottomOf="@+id/noteDetailsET"
         app:layout_constraintVertical_bias="0.13" />
 
     <ImageView

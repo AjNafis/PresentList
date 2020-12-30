@@ -1,4 +1,4 @@
-package com.example.presentlist.ToDoList;
+package com.example.MillenApp.ToDoList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import com.example.presentlist.R;
+import com.example.MillenApp.R;
 
 import java.util.ArrayList;
 
@@ -40,48 +40,41 @@ public class showData_Activity extends AppCompatActivity {
         //check and create a table.
         SQLiteDatabase db = openOrCreateDatabase("TodoListDb",MODE_PRIVATE,null);
 
-        // We will store table data into this list
-        ArrayList<String> listData_list = new ArrayList<>();
+        //We will store the entire table data into our custom built object arrayList.
+        ArrayList<DataObj> dataObjArrayList= new ArrayList<>();
 
-        //Moving data from the table to a list.
-        String tableRow = "";
-        Cursor cr = db.rawQuery("SELECT * FROM ToDoListDataTable",null);
+        Cursor cr = db.rawQuery("SELECT * FROM ToDoListDataTable ORDER BY name",null);
+        int counter = 0;
         if(cr.moveToFirst()) {
             do {
+
+                ArrayList<String> row = new ArrayList<>();
+
                 for (int i = 0; i < cr.getColumnCount(); i++) {
-                    tableRow += cr.getString(i) + "_!_";
+                    row.add(cr.getString(i));
                 }
-                listData_list.add(tableRow);
-                tableRow = "";
+                DataObj dataObj = new DataObj(row);
+                dataObjArrayList.add(dataObj);
             }
             while (cr.moveToNext());
         }
         cr.close();
 
-        //We are creating 2 lists so that we can keep original data intact while we perform string manipulation on this list.
+        //This list view help to perform string manipulation
         ArrayList<String> listView_list = new ArrayList<>();
 
         //Setting up adapter to send ArrayList data to listView
         ArrayAdapter adapter = new ArrayAdapter(showData_Activity.this,android.R.layout.simple_list_item_1, listView_list);
         listView.setAdapter(adapter);
 
-        String [] _str;
-        if (listData_list.size() != 0) {
-            for (String data : listData_list){
-
-                dataEntry_dataHolder_Class listData = new dataEntry_dataHolder_Class();
-                _str = data.split("_!_");
-                listData.ID = _str[0];
-                listData.Date = _str[1];
-                listData.Name = _str[2];
-                listData.Details = _str [3];
-
-
-                listView_list.add(  "\nDate: " + listData.Date + "\n\n" +
-                                    "Task Name: " + listData.Name + "\n" +
-                                    "Task Details: " + listData.Details + "\n");
+        if (dataObjArrayList.size() != 0) {
+            for (DataObj data : dataObjArrayList){
+                listView_list.add(      "\nDate: " + data.Date + "\n\n" +
+                                        "Task Name: " + data.Name + "\n" +
+                                        "Task Details: " + data.Details + "\n");
             }
-        } else {
+        }
+        else {
             listView_list.add("No data to show");
         }
         adapter.notifyDataSetChanged();
@@ -100,8 +93,10 @@ public class showData_Activity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.delete:
-                                String [] _str = listData_list.get(position).split("_!_");
-                                db.delete("GroceryListDataTable", "id" + "=" + Integer.parseInt(_str[0]) , null);
+
+                                int ID = Integer.parseInt(dataObjArrayList.get(position).ID);
+
+                                db.delete("ToDoListDataTable", "id" + "=" + ID , null);
                                 startActivity(new Intent(showData_Activity.this, showData_Activity.class));
                                 finish();
 
@@ -155,6 +150,9 @@ public class showData_Activity extends AppCompatActivity {
             case R.id.taskinputscreen:
                 finish();
                 return true;
+
+            case R.id.goToMainMenu:
+                startActivity(new Intent(this, com.example.MillenApp.MainMenu.mainMenu_Activity.class));
 
             default:
                 return super.onOptionsItemSelected(item);

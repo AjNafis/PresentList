@@ -2,12 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/tasklist"
-        android:title="Task List"
+    <item android:id="@+id/taskinputscreen"
+        android:title="Enter New Data"
         app:showAsAction="never"></item>
 
-    <item android:id="@+id/taskinputscreen"
-        android:title="Task Input Screen"
+    <item android:id="@+id/tasklist"
+        android:title="Show List"
+        app:showAsAction="never"></item>
+
+    <item android:id="@+id/goToMainMenu"
+        android:title="Main Menu"
         app:showAsAction="never"></item>
 
 </menu>

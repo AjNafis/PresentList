@@ -1,4 +1,4 @@
-package com.example.presentlist;
+package com.example.MillenApp;
 
 import org.junit.Test;
 

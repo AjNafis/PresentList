@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.presentlist">
+    package="com.example.MillenApp">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.PresentList">
-        <activity android:name=".GroceryList.showData_Activity"></activity>
+        <activity android:name=".NotesList.showData_Activity"></activity>
+        <activity android:name=".NotesList.dataEntry_Activity" />
+        <activity android:name=".GroceryList.showData_Activity" />
         <activity android:name=".GroceryList.dataEntry_Activity" />
         <activity android:name=".ToDoList.dataEntry_Activity" />
         <activity android:name=".ToDoList.showData_Activity" />

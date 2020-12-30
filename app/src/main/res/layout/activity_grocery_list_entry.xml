@@ -5,7 +5,7 @@
     android:id="@+id/cLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GroceryList.dataEntry_Activity">
+    tools:context="com.example.MillenApp.GroceryList.dataEntry_Activity">
 
     <TextView
         android:id="@+id/showTaskListTV"
@@ -14,7 +14,7 @@
         android:layout_marginTop="48dp"
         android:layout_marginEnd="16dp"
         android:clickable="true"
-        android:text="Show Task List"
+        android:text="Show Grocery List"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/saveBtn"
         app:layout_constraintHorizontal_bias="1.0"

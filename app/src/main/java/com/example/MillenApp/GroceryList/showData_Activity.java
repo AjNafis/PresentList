@@ -1,4 +1,4 @@
-package com.example.presentlist.GroceryList;
+package com.example.MillenApp.GroceryList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import com.example.presentlist.R;
+import com.example.MillenApp.R;
 
 import java.util.ArrayList;
 
@@ -44,7 +44,7 @@ public class showData_Activity extends AppCompatActivity {
 
         //Moving data from the table to a list.
         String tableRow = "";
-        Cursor cr = db.rawQuery("SELECT * FROM GroceryListDataTable",null);
+        Cursor cr = db.rawQuery("SELECT * FROM GroceryListDataTable ORDER BY category, name",null);
         if(cr.moveToFirst()) {
             do {
                 for (int i = 0; i < cr.getColumnCount(); i++) {
@@ -68,7 +68,7 @@ public class showData_Activity extends AppCompatActivity {
         if (listData_list.size() != 0) {
             for (String data : listData_list){
 
-                dataEntry_dataHolder_Class listData = new dataEntry_dataHolder_Class();
+                DataObj listData = new DataObj();
                 _str = data.split("_!_");
                 listData.ID = _str[0];
                 listData.Name = _str[1];
@@ -151,12 +151,15 @@ public class showData_Activity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.tasklist:
-                Toast.makeText(this, "You are currently on the task list screen", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "You are currently on the grocery list screen", Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.taskinputscreen:
                 finish();
                 return true;
+
+            case R.id.goToMainMenu:
+                startActivity(new Intent(this, com.example.MillenApp.MainMenu.mainMenu_Activity.class));
 
             default:
                 return super.onOptionsItemSelected(item);

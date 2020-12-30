@@ -1,4 +1,4 @@
-package com.example.presentlist.GroceryList;
+package com.example.MillenApp.ToDoList;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.presentlist.R;
+import com.example.MillenApp.R;
 
 import java.util.Calendar;
 
@@ -32,37 +32,22 @@ public class dataEntry_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_grocery_list_entry);
+        setContentView(R.layout.activity_todo_list_entry);
 
         //This creates the back button on the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Task Entry");
 
-        //Need to fix naming conflict with layout from activity_list_entry
-        EditText tItemName = findViewById(R.id.ET1);
-        EditText tBestBeforeDate = findViewById(R.id.ET2);
-        EditText tCategory = findViewById(R.id.ET3);
-
-        EditText tQty = findViewById(R.id.ET1_qty);
         ImageView arrow = findViewById(R.id.arrowImageView);
+        EditText tdate = findViewById(R.id.ET1);
+        EditText tName = findViewById(R.id.ET2);
+        EditText tDetails = findViewById(R.id.ET3);
         Button save = findViewById(R.id.saveBtn);
         TextView showTaskListTV = findViewById(R.id.showTaskListTV);
         ConstraintLayout cLayout = findViewById(R.id.cLayout);
         String [] months = {"Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"};
 
-        //Creating database
-        SQLiteDatabase db = openOrCreateDatabase("GroceryListDb",MODE_PRIVATE,null);
 
-        //Remove table if exists, so that we can create it again.
-        //db.execSQL("DROP TABLE IF EXISTS groceryListData");
-
-        //Create table if it does not exist already.
-        db.execSQL("CREATE TABLE IF NOT EXISTS GroceryListDataTable(" +
-                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                "name varchar(32)," +
-                "quantity varchar(32)," +
-                "bestbeforedate varchar(255)," +
-                "category varchar(255))");
 
         //Handles arrow clicks on both orientations.
         arrow.setOnClickListener(v -> {
@@ -76,21 +61,23 @@ public class dataEntry_Activity extends AppCompatActivity {
         int m = current.get(Calendar.MONTH);
         int d = current.get(Calendar.DAY_OF_MONTH);
 
+        //Setting tdate to todays tdate.
+        tdate.setText(d + "-" + months[m] + "-" + y);
 
-        //Created a DatePicker dialog in order to get tItemName from user more conveniently.
-        tBestBeforeDate.setOnFocusChangeListener((v, hasFocus) -> {
+
+        //Created a DatePicker dialog in order to get tdate from user more conveniently.
+        tdate.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus){
                 //Doing this to hide the keyboard
-                tBestBeforeDate.clearFocus();
+                tdate.clearFocus();
 
                 //This opens up the calender Datepicker Dialog.
                 DatePickerDialog sDatePickerDialog;
                 DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        //This sets the edit text box with the selected tItemName
-                        tBestBeforeDate.setText(dayOfMonth + "-" + months[month] + "-" + year);
-                        tCategory.requestFocus();
+                        //This sets the edit text box with the selected tdate
+                        tdate.setText(dayOfMonth + "-" + months[month] + "-" + year);
                     }
                 };
 
@@ -117,44 +104,55 @@ public class dataEntry_Activity extends AppCompatActivity {
             }
         });
 
+        //Creating database
+        SQLiteDatabase db = openOrCreateDatabase("TodoListDb",MODE_PRIVATE,null);
+
+        //Remove table if exists, so that we can create it again.
+        //db.execSQL("DROP TABLE IF EXISTS listData");
+
+        //Create table if it does not exist already. TABLE NAME IS USE IN MULTIPLE PLACES,
+        //THEY WILL NOT ALL CHANGE if YOU JUST CHANGE IT HERE.
+        db.execSQL("CREATE TABLE IF NOT EXISTS ToDoListDataTable(" +
+                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "date varchar(32)," +
+                "name varchar(255)," +
+                "details varchar(255))");
+
+
         //Handle Save button press.
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //Checks to make sure that all EditText fields have data.
-                boolean flag1 = false, flag2 = false, flag3 = false;
-                flag1 = !tItemName.getText().toString().isEmpty();
-                flag2 = !tQty.getText().toString().isEmpty();
-                flag3 = !tCategory.getText().toString().isEmpty();
+                boolean flag1 = false, flag2 = false;
+                flag1 = !tName.getText().toString().isEmpty();
+                flag2 = !tDetails.getText().toString().isEmpty();
 
-                if (flag1 && flag2 && flag3){
-
+                if (flag1 && flag2){
                     AlertDialog.Builder builder = new AlertDialog.Builder(dataEntry_Activity.this);
 
                     builder.setTitle("Please Confirm");
-                    builder.setMessage( "Item Name : " + tItemName.getText().toString().trim() + "\n" +
-                                        "Quantity : " + tQty.getText().toString().trim() + "\n" +
-                                        "Best Before : " + tBestBeforeDate.getText().toString().trim() + "\n" +
-                                        "Category : " + tCategory.getText().toString().trim() + "\n\n" +
-                                        "Is this correct?");
+                    builder.setMessage( "Date: " + tdate.getText().toString().trim() + "\n" +
+                            "Task Name: " + tName.getText().toString().trim() + "\n" +
+                            "Task Details: " + tDetails.getText().toString().trim() + "\n\n" +
+                            "Is this correct?");
 
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
                             ContentValues values = new ContentValues();
-                            values.put("name",tItemName.getText().toString().trim());
-                            values.put("quantity",tQty.getText().toString().trim());
-                            values.put("bestbeforedate",tBestBeforeDate.getText().toString().trim());
-                            values.put("category",tCategory.getText().toString().trim());
+                            values.put("date",tdate.getText().toString().trim());
+                            values.put("name",tName.getText().toString().trim());
+                            values.put("details",tDetails.getText().toString().trim());
 
-                            //Insert data into the data base, i used ContentValues class to help me
+                            //Insert data into the data base, I used ContentValues class to help me
                             //put the data into the the row, regula SQL code was not accepting strings as input.
-                            db.insert("GroceryListDataTable",null,values);
+                            db.insert("ToDoListDataTable",null,values);
 
-                            tItemName.setText("");
-                            tQty.setText("");
-                            tBestBeforeDate.setText("");
-                            tCategory.setText("");
+                            tdate.setText(d + "-" + months[m] + "-" + y);
+                            tName.setText("");
+                            tDetails.setText("");
 
                             dialog.dismiss();
                         }
@@ -173,9 +171,8 @@ public class dataEntry_Activity extends AppCompatActivity {
                     alert.show();
                 }
                 else {
-                    if (!flag1) tItemName.setError("Enter Item Name");
-                    if (!flag2) tQty.setError("Enter Quantity");
-                    if (!flag3) tCategory.setError("Enter Category");
+                    if (!flag1) tName.setError("Enter Task Name");
+                    if (!flag2) tDetails.setError("Enter Task Details");
                 }
             }
         });
@@ -219,9 +216,13 @@ public class dataEntry_Activity extends AppCompatActivity {
                 Toast.makeText(this, "You are currently on the task input screen", Toast.LENGTH_SHORT).show();
                 return true;
 
+            case R.id.goToMainMenu:
+                finish();
+
             default:
                 return super.onOptionsItemSelected(item);
 
         }
     }
+
 }
