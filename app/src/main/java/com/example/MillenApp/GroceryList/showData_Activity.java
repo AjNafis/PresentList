@@ -102,9 +102,12 @@ public class showData_Activity extends AppCompatActivity {
                         switch (item.getItemId()){
                             case R.id.delete:
                                 String [] _str = listData_list.get(position).split("_!_");
-                                db.delete("GroceryListDataTable", "id" + "=" + Integer.parseInt(_str[0]) , null);
-                                startActivity(new Intent(showData_Activity.this, showData_Activity.class));
-                                finish();
+                                try {
+                                    db.delete("GroceryListDataTable", "id" + "=" + Integer.parseInt(_str[0]) , null);
+                                } finally {
+                                    listView_list.remove(position);
+                                    adapter.notifyDataSetChanged();
+                                }
 
                         }
 

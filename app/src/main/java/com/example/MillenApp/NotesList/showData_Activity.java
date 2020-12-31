@@ -1,5 +1,6 @@
 package com.example.MillenApp.NotesList;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -63,9 +66,8 @@ public class showData_Activity extends AppCompatActivity {
 
         rvNotes.setLayoutManager(new LinearLayoutManager(this));
 
-
-
     }
+
 
     //This handles the back button on the action bar.
     @Override

@@ -45,17 +45,17 @@ public class mainMenu_Activity extends AppCompatActivity {
 
         setDataSummary();
         buttonAnimation();
+
         super.onResume();
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         ProgressBar progressBar = findViewById(R.id.progressBar);
-
         progressBar.setVisibility(View.INVISIBLE);
 
         summary = "";
-        super.onStop();
+        super.onPause();
     }
 
     @Override
@@ -76,9 +76,6 @@ public class mainMenu_Activity extends AppCompatActivity {
 
         //Calling function to get/set DataSummary.
         setDataSummary();
-
-        buttonAnimation();
-
 
     }
 

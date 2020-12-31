@@ -7,4 +7,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray_900">#333333</color>
+    <color name="rez_divider_grey">#989898</color>
+    <color name="rez_gold">#C68708</color>
+
+
+
 </resources>

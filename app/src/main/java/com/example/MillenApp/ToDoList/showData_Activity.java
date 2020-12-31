@@ -63,6 +63,7 @@ public class showData_Activity extends AppCompatActivity {
 
         //Setting up adapter to send ArrayList data to listView
         ArrayAdapter adapter = new ArrayAdapter(showData_Activity.this,android.R.layout.simple_list_item_1, listView_list);
+
         listView.setAdapter(adapter);
 
         if (dataObjArrayList.size() != 0) {
@@ -94,9 +95,16 @@ public class showData_Activity extends AppCompatActivity {
 
                                 int ID = Integer.parseInt(dataObjArrayList.get(position).ID);
 
-                                db.delete("ToDoListDataTable", "id" + "=" + ID , null);
-                                startActivity(new Intent(showData_Activity.this, showData_Activity.class));
-                                finish();
+                                try {
+                                    db.delete("ToDoListDataTable", "id" + "=" + ID , null);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(showData_Activity.this, "Failed to delete item. Error Messager: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                } finally {
+                                    listView_list.remove(position);
+                                    adapter.notifyDataSetChanged();
+                                }
+
 
                         }
 

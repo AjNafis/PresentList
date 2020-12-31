@@ -1,7 +1,6 @@
 package com.example.MillenApp.NotesList;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -18,11 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.MillenApp.R;
-import com.example.MillenApp.ToDoList.showData_Activity;
 
 import java.util.ArrayList;
-
-import static androidx.core.content.ContextCompat.startActivity;
 
 
 public class ListDataAdapter extends
@@ -94,32 +90,36 @@ public class ListDataAdapter extends
             @Override
             public void onClick(View v) {
 
-                arrow.setColorFilter(Color.BLACK);
+                arrow.setColorFilter(Color.GRAY);
 
-                    PopupMenu popup = new PopupMenu(holder.context, arrow);
-                    MenuInflater inflater = popup.getMenuInflater();
-                    inflater.inflate(R.menu.showlist_onclicklistener, popup.getMenu());
-                    popup.show();
+                PopupMenu popup = new PopupMenu(holder.context, arrow);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.showlist_onclicklistener, popup.getMenu());
+                popup.show();
 
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            switch (item.getItemId()){
-                                case R.id.delete:
-                                    int ID = Integer.parseInt(dataObjArrayList.get(position).ID);
-                                    //holder.db.delete("ToDoListDataTable", "id" + "=" + ID , null);
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.delete:
 
-                            }
+                                int ID = Integer.parseInt(dataObjArrayList.get(position).ID);
+                //************** I want to perform the following line here but I cant do it. Hopefully someone else can figure it out.
+                //               db.delete("NotesListDataTable", "id" + "=" + ID , null);
+                                dataObjArrayList.remove(position);
 
-                            return false;
+
                         }
-                    });
-                    popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
-                        @Override
-                        public void onDismiss(PopupMenu menu) {
-                            arrow.clearColorFilter();
-                        }
-                    });
+
+                        return false;
+                    }
+                });
+                popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
+                    @Override
+                    public void onDismiss(PopupMenu menu) {
+                        arrow.clearColorFilter();
+                    }
+                });
 
             }
         });
@@ -144,4 +144,7 @@ public class ListDataAdapter extends
     public int getItemCount() {
         return dataObjArrayList.size();
     }
+
+
+
 }
