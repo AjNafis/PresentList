@@ -9,24 +9,31 @@ import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.MillenApp.R;
 import com.example.MillenApp.ToDoList.showData_Activity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class dataEntry_Activity extends AppCompatActivity {
@@ -51,7 +58,7 @@ public class dataEntry_Activity extends AppCompatActivity {
 
         arrow = findViewById(R.id.arrowImageView);
         EditText tdate = findViewById(R.id.dateET);
-        EditText tType = findViewById(R.id.noteTypeET);
+        AutoCompleteTextView tType = findViewById(R.id.noteTypeET);
         EditText tDetails = findViewById(R.id.noteDetailsET);
         Button save = findViewById(R.id.saveBtn);
         TextView showListTV = findViewById(R.id.showListTV);
@@ -95,6 +102,8 @@ public class dataEntry_Activity extends AppCompatActivity {
             }
         });
 
+
+
         //This hides the keyboard when not on focus.
         cLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,8 +131,23 @@ public class dataEntry_Activity extends AppCompatActivity {
                 "type varchar(255)," +
                 "details varchar(255))");
 
+        // Cursor/array will store unique Note Types. I will then use this to show suggestions when the user typing in the results.
+        Cursor cr = db.rawQuery("SELECT DISTINCT type FROM NotesListDataTable",null);
 
-        //Handle Save button press.
+        String [] tType_array = new String [cr.getCount()];
+        int i = 0;
+        if(cr.moveToFirst()) {
+            do {
+                tType_array[i] = cr.getString(0).toLowerCase();
+                i++;
+            }
+            while (cr.moveToNext());
+        }
+        cr.close();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tType_array);
+        tType.setAdapter(adapter);
+
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

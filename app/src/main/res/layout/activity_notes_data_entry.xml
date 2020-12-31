@@ -22,7 +22,7 @@
         app:layout_constraintTop_toBottomOf="@+id/saveBtn"
         app:layout_constraintVertical_bias="0.0" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/noteTypeET"
         android:layout_width="345dp"
         android:layout_height="wrap_content"
