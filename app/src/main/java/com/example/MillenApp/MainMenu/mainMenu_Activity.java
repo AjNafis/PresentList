@@ -86,15 +86,15 @@ public class mainMenu_Activity extends AppCompatActivity {
         //We are doing this to keep track of how many rows are present in the database for each individual list.
         Cursor cr = TodoListDb.rawQuery("SELECT COUNT(ID) FROM ToDoListDataTable",null);
         cr.moveToFirst();
-        totalRows.add("You have " + cr.getString(0) + " ToDo " + (Integer.parseInt(cr.getString(0)) > 1 ? "items" : "item" ));
+        totalRows.add("You have " + cr.getString(0) + (Integer.parseInt(cr.getString(0)) != 1 ? " tasks" : " task" ) + " left To Do, ");
 
         cr = GroceryListDb.rawQuery("SELECT COUNT(*) FROM GroceryListDataTable",null);
         cr.moveToFirst();
-        totalRows.add("You have " + cr.getString(0) + " Grocery " + (Integer.parseInt(cr.getString(0)) > 1 ? "items" : "item" ));
+        totalRows.add("You have " + cr.getString(0) + (Integer.parseInt(cr.getString(0)) != 1 ? " items" : " item") + " left in your Grocery checklist,");
 
         cr = NotesListDb.rawQuery("SELECT COUNT(*) FROM NotesListDataTable",null);
         cr.moveToFirst();
-        totalRows.add("You have " + cr.getString(0) + (Integer.parseInt(cr.getString(0)) > 1 ? " Notes." : " Note.")) ;
+        totalRows.add("You have created " + cr.getString(0) + (Integer.parseInt(cr.getString(0)) > 1 ? " Notes" : " Note") + " so far. ") ;
 
         cr.close();
         summaryView = findViewById(R.id.summaryTV);
