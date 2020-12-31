@@ -25,7 +25,6 @@
         android:layout_height="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scroolViewHeaderTV">
 
@@ -33,6 +32,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,22 +42,30 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/toDoRouteList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="To Do List" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="To Do List"
+                    app:cornerRadius="12dp" />
 
                 <Button
                     android:id="@+id/notesRouteList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-
-                    android:text="Notes" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="Notes"
+                    app:cornerRadius="12dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -68,16 +77,24 @@
                     android:id="@+id/groceryRouteList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Grocery List" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="Grocery List"
+                    app:cornerRadius="12dp" />
 
                 <Button
                     android:id="@+id/thingsToBuyRouteList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="4dp"
                     android:backgroundTint="#3A3939"
-                    android:text="Things to Buy" />
+                    android:text="Things to Buy"
+                    app:cornerRadius="12dp" />
 
             </LinearLayout>
 
@@ -87,47 +104,62 @@
                 android:layout_gravity="center_vertical">
 
                 <Button
-                    android:id="@+id/workOutRouteList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-
-                    android:backgroundTint="#3A3939"
-                    android:text="Workout List" />
-
-                <Button
                     android:id="@+id/movieRouteList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="4dp"
                     android:backgroundTint="#3A3939"
-                    android:text="Movies to Watch" />
+                    android:text="Movies to Watch"
+                    app:cornerRadius="12dp" />
+
+                <Button
+                    android:id="@+id/workOutRouteList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="4dp"
+                    android:backgroundTint="#3A3939"
+                    android:text="Gym / Workout List"
+                    app:cornerRadius="12dp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/expensesRouteList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#3A3939"
-                    android:text="Expenses List" />
 
                 <Button
                     android:id="@+id/stockRouteList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="4dp"
                     android:backgroundTint="#3A3939"
-                    android:text="Stock Exchange Holdings List" />
+                    android:text="Stock Exchange Holdings List"
+                    app:cornerRadius="12dp" />
+
+                <Button
+                    android:id="@+id/expensesRouteList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#3A3939"
+                    android:text="Expenses List"
+                    app:cornerRadius="12dp" />
+
             </LinearLayout>
 
         </LinearLayout>
@@ -199,6 +231,7 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

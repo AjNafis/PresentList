@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -26,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.MillenApp.R;
 
+import java.lang.reflect.Array;
 import java.util.Calendar;
 
 public class dataEntry_Activity extends AppCompatActivity {
@@ -49,9 +53,9 @@ public class dataEntry_Activity extends AppCompatActivity {
         getSupportActionBar().setTitle("Grocery Item Entry");
 
         //Need to fix naming conflict with layout from activity_list_entry
-        EditText tItemName = findViewById(R.id.ET1);
+        AutoCompleteTextView tItemName = findViewById(R.id.ET1);
         EditText tBestBeforeDate = findViewById(R.id.ET2);
-        EditText tCategory = findViewById(R.id.ET3);
+        AutoCompleteTextView tCategory = findViewById(R.id.ET3);
 
         EditText tQty = findViewById(R.id.ET1_qty);
         arrow = findViewById(R.id.arrowImageView);
@@ -73,6 +77,37 @@ public class dataEntry_Activity extends AppCompatActivity {
                 "quantity varchar(32)," +
                 "bestbeforedate varchar(255)," +
                 "category varchar(255))");
+
+        // The following 2 cursors and adapters are used to set up the AutoComplete feature.
+        Cursor cr = db.rawQuery("SELECT DISTINCT name FROM GroceryListDataTable",null);
+        String [] tItemNameArray = new String[cr.getCount()];
+        int i = 0;
+        if(cr.moveToFirst()) {
+            do {
+                tItemNameArray[i] = cr.getString(0);
+                i++;
+            }
+            while (cr.moveToNext());
+        }
+        cr.close();
+
+        cr = db.rawQuery("SELECT DISTINCT category FROM GroceryListDataTable",null);
+        String [] tCategoryArray = new String[cr.getCount()];
+        i = 0;
+        if(cr.moveToFirst()) {
+            do {
+                tCategoryArray[i] = cr.getString(0);
+                i++;
+            }
+            while (cr.moveToNext());
+        }
+        cr.close();
+
+        ArrayAdapter<String> itemNameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tItemNameArray);
+        ArrayAdapter<String> categoryNameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tCategoryArray);
+
+        tItemName.setAdapter(itemNameAdapter);
+        tCategory.setAdapter(categoryNameAdapter);
 
         //Handles arrow clicks on both orientations.
         arrow.setOnClickListener(v -> {

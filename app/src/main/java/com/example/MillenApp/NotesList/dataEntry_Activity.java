@@ -102,8 +102,6 @@ public class dataEntry_Activity extends AppCompatActivity {
             }
         });
 
-
-
         //This hides the keyboard when not on focus.
         cLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +136,7 @@ public class dataEntry_Activity extends AppCompatActivity {
         int i = 0;
         if(cr.moveToFirst()) {
             do {
-                tType_array[i] = cr.getString(0).toLowerCase();
+                tType_array[i] = cr.getString(0);
                 i++;
             }
             while (cr.moveToNext());

@@ -8,6 +8,7 @@ public class DataObj {
     public String BestBeforeDate;
     public String Category;
 
+
 //    public DataObj(ArrayList data) {
 //        ID = data.get(0).toString().trim();
 //        Name = data.get(1).toString().trim();

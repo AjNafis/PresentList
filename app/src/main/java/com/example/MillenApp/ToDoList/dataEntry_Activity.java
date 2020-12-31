@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -50,7 +53,7 @@ public class dataEntry_Activity extends AppCompatActivity {
 
         arrow = findViewById(R.id.arrowImageView);
         EditText tdate = findViewById(R.id.ET1);
-        EditText tName = findViewById(R.id.ET2);
+        AutoCompleteTextView tName = findViewById(R.id.ET2);
         EditText tDetails = findViewById(R.id.ET3);
         Button save = findViewById(R.id.saveBtn);
         TextView showListTV = findViewById(R.id.showListTV);
@@ -126,6 +129,20 @@ public class dataEntry_Activity extends AppCompatActivity {
                 "name varchar(255)," +
                 "details varchar(255))");
 
+        // The following cursor and adapters are used to set up the AutoComplete feature.
+        Cursor cr = db.rawQuery("SELECT DISTINCT name FROM ToDoListDataTable",null);
+        String [] tNameArray = new String[cr.getCount()];
+        int i = 0;
+        if(cr.moveToFirst()) {
+            do {
+                tNameArray[i] = cr.getString(0);
+                i++;
+            }
+            while (cr.moveToNext());
+        }
+        cr.close();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tNameArray);
+        tName.setAdapter(adapter);
 
         //Handle Save button press.
         save.setOnClickListener(new View.OnClickListener() {
