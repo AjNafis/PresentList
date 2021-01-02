@@ -58,7 +58,7 @@ public class showData_Activity extends AppCompatActivity {
         }
         cr.close();
 
-        ListDataAdapter adapter = new ListDataAdapter(dataObjArrayList);
+        ListDataAdapter adapter = new ListDataAdapter(dataObjArrayList,this);
 
         RecyclerView rvNotes = findViewById(R.id.rvNotes);
 

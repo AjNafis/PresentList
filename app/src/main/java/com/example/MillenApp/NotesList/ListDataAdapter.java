@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -24,6 +25,14 @@ import java.util.ArrayList;
 public class ListDataAdapter extends
         RecyclerView.Adapter<ListDataAdapter.ViewHolder> {
 
+    private ArrayList<DataObj> dataObjArrayList;
+    private SQLiteDatabase db;
+
+    public ListDataAdapter (ArrayList<DataObj> DataObjArrayList,Context context) {
+        dataObjArrayList = DataObjArrayList;
+        db = context.openOrCreateDatabase("NotesListDb",context.MODE_PRIVATE,null);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView DateTV;
@@ -32,7 +41,6 @@ public class ListDataAdapter extends
         public ImageView arrow;
         public Context context;
         public LinearLayout noteTypeLLayout;
-        //public SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase("NotesListDb",null);
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -44,14 +52,7 @@ public class ListDataAdapter extends
             context = itemView.getContext();
             noteTypeLLayout = itemView.findViewById(R.id.noteTypeLLayout);
 
-
         }
-    }
-
-    private ArrayList<DataObj> dataObjArrayList;
-
-    public ListDataAdapter (ArrayList<DataObj> DataObjArrayList) {
-        dataObjArrayList = DataObjArrayList;
     }
 
     @NonNull
@@ -104,11 +105,9 @@ public class ListDataAdapter extends
                             case R.id.delete:
 
                                 int ID = Integer.parseInt(dataObjArrayList.get(position).ID);
-                //************** I want to perform the following line here but I cant do it. Hopefully someone else can figure it out.
-                //               db.delete("NotesListDataTable", "id" + "=" + ID , null);
+                                db.delete("NotesListDataTable", "id" + "=" + ID , null);
                                 dataObjArrayList.remove(position);
-
-
+                                notifyDataSetChanged();
                         }
 
                         return false;

@@ -6,23 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.MillenApp.MainMenu.mainMenu_Activity">
 
-    <ImageView
-        android:id="@+id/dividerIV2"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_weight="1"
-        android:background="@color/rez_divider_grey"
-        android:paddingBottom="0dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
-        app:srcCompat="?attr/dividerHorizontal"
-        tools:srcCompat="?android:attr/listDivider" />
-
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -36,29 +19,13 @@
         app:layout_constraintTop_toBottomOf="@+id/summaryTV" />
 
 
-    <ImageView
-        android:id="@+id/dividerIV"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_weight="1"
-        android:background="@color/rez_divider_grey"
-        android:paddingBottom="0dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        app:srcCompat="?attr/dividerHorizontal"
-        tools:srcCompat="?android:attr/listDivider" />
-
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/dividerIV2"
+        android:layout_marginBottom="48dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scroolViewHeaderTV">
@@ -101,6 +68,20 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="4dp"
                     android:text="Notes"
+                    android:textSize="15sp"
+                    app:cornerRadius="12dp" />
+
+                <Button
+                    android:id="@+id/thingsToBuyRouteList3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#3A3939"
+                    android:text="Dev Notes"
                     android:textSize="15sp"
                     app:cornerRadius="12dp" />
             </LinearLayout>
@@ -280,7 +261,7 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
