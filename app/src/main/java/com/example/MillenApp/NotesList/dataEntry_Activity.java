@@ -46,6 +46,9 @@ public class dataEntry_Activity extends AppCompatActivity {
 
     //Arrow controls activity change.
     ImageView arrow;
+    ArrayAdapter<String> tTypeAdapter;
+    SQLiteDatabase db;
+    AutoCompleteTextView tType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,7 @@ public class dataEntry_Activity extends AppCompatActivity {
 
         arrow = findViewById(R.id.arrowImageView);
         EditText tdate = findViewById(R.id.dateET);
-        AutoCompleteTextView tType = findViewById(R.id.noteTypeET);
+        tType = findViewById(R.id.noteTypeET);
         EditText tDetails = findViewById(R.id.noteDetailsET);
         Button save = findViewById(R.id.saveBtn);
         TextView showListTV = findViewById(R.id.showListTV);
@@ -121,7 +124,7 @@ public class dataEntry_Activity extends AppCompatActivity {
         });
 
         //Creating database
-        SQLiteDatabase db = openOrCreateDatabase("NotesListDb",MODE_PRIVATE,null);
+        db = openOrCreateDatabase("NotesListDb",MODE_PRIVATE,null);
         //Create table if it does not exist already.
         db.execSQL("CREATE TABLE IF NOT EXISTS NotesListDataTable(" +
                 "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
@@ -129,21 +132,7 @@ public class dataEntry_Activity extends AppCompatActivity {
                 "type varchar(255)," +
                 "details varchar(255))");
 
-        // Cursor/array will store unique Note Types. I will then use this to show suggestions when the user typing in the results.
-        Cursor cr = db.rawQuery("SELECT DISTINCT type FROM NotesListDataTable",null);
-
-        String [] tType_array = new String [cr.getCount()];
-        int i = 0;
-        if(cr.moveToFirst()) {
-            do {
-                tType_array[i] = cr.getString(0);
-                i++;
-            }
-            while (cr.moveToNext());
-        }
-        cr.close();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tType_array);
-        tType.setAdapter(adapter);
+        setAutoCompleteListAdapter();
 
 
         save.setOnClickListener(new View.OnClickListener() {
@@ -186,6 +175,8 @@ public class dataEntry_Activity extends AppCompatActivity {
                             tType.setText("");
                             tDetails.setText("");
 
+                            setAutoCompleteListAdapter();
+
                             dialog.dismiss();
                         }
                     });
@@ -218,6 +209,23 @@ public class dataEntry_Activity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void setAutoCompleteListAdapter() {
+        // Cursor/array will store unique Note Types. I will then use this to show suggestions when the user typing in the results.
+        Cursor cr = db.rawQuery("SELECT DISTINCT type FROM NotesListDataTable",null);
+        String [] tType_array = new String [cr.getCount()];
+        int i = 0;
+        if(cr.moveToFirst()) {
+            do {
+                tType_array[i] = cr.getString(0);
+                i++;
+            }
+            while (cr.moveToNext());
+        }
+        cr.close();
+        tTypeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tType_array);
+        tType.setAdapter(tTypeAdapter);
     }
 
     //This handles the back button on the action bar.

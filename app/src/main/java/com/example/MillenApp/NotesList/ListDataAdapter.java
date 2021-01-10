@@ -1,6 +1,8 @@
 package com.example.MillenApp.NotesList;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -51,7 +53,6 @@ public class ListDataAdapter extends
             arrow = itemView.findViewById(R.id.arrowBtn);
             context = itemView.getContext();
             noteTypeLLayout = itemView.findViewById(R.id.noteTypeLLayout);
-
         }
     }
 
@@ -103,11 +104,35 @@ public class ListDataAdapter extends
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.delete:
+                                AlertDialog.Builder builder = new AlertDialog.Builder(holder.context);
+                                builder.setTitle("Please Confirm");
+                                DataObj tempObj = dataObjArrayList.get(position);
+                                builder.setMessage("Are you sure you want to delete the following note?\n\n" +
+                                        "Date: " + tempObj.Date + "\n" +
+                                "Note Type: " + tempObj.Type + "\n" +
+                                        "Note Details: " + tempObj.Details );
+                                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
 
-                                int ID = Integer.parseInt(dataObjArrayList.get(position).ID);
-                                db.delete("NotesListDataTable", "id" + "=" + ID , null);
-                                dataObjArrayList.remove(position);
-                                notifyDataSetChanged();
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        int ID = Integer.parseInt(dataObjArrayList.get(position).ID);
+                                        db.delete("NotesListDataTable", "id" + "=" + ID , null);
+                                        dataObjArrayList.remove(position);
+                                        notifyItemRemoved(position);
+                                        notifyItemRangeChanged(position, dataObjArrayList.size());
+                                        dialog.dismiss();
+                                    }
+                                });
+                                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Do nothing
+                                        dialog.dismiss();
+                                    }
+                                });
+                                AlertDialog alert = builder.create();
+                                alert.show();
+
                         }
 
                         return false;

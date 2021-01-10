@@ -40,22 +40,24 @@ public class mainMenu_Activity extends AppCompatActivity {
 
 
     protected void onResume() {
+        super.onResume();
         ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
 
         setDataSummary();
         buttonAnimation();
 
-        super.onResume();
+
     }
 
     @Override
     protected void onPause() {
+        super.onPause();
         ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
 
         summary = "";
-        super.onPause();
+
     }
 
     @Override

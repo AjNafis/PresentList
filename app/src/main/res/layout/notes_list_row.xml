@@ -45,7 +45,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
+            app:srcCompat="@drawable/arrow_forward_ios_24" />
 
 
     </LinearLayout>
@@ -61,7 +61,7 @@
             android:id="@+id/noteTypeLLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="3dp"
             android:orientation="horizontal">
 
             <TextView
@@ -82,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="50dp"
                 android:layout_weight="1"
+                android:maxLines="2"
                 android:text="TextView"
                 android:textSize="16sp" />
 
