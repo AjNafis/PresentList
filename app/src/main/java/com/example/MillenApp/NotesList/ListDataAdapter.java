@@ -1,5 +1,6 @@
 package com.example.MillenApp.NotesList;
 
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,13 +11,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.MillenApp.R;
@@ -29,9 +32,10 @@ public class ListDataAdapter extends
 
     private ArrayList<DataObj> dataObjArrayList;
     private SQLiteDatabase db;
-
-    public ListDataAdapter (ArrayList<DataObj> DataObjArrayList,Context context) {
+    private Context rootContext;
+    public ListDataAdapter (ArrayList<DataObj> DataObjArrayList, Context context) {
         dataObjArrayList = DataObjArrayList;
+        rootContext = context;
         db = context.openOrCreateDatabase("NotesListDb",context.MODE_PRIVATE,null);
     }
 
@@ -40,9 +44,10 @@ public class ListDataAdapter extends
         public TextView DateTV;
         public TextView TypeTV;
         public TextView DetailTV;
-        public ImageView arrow;
+        public ImageView edit_icon;
         public Context context;
         public LinearLayout noteTypeLLayout;
+        public TextView tvSeeMore;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -50,9 +55,11 @@ public class ListDataAdapter extends
             DateTV = itemView.findViewById(R.id.DateTV);
             TypeTV = itemView.findViewById(R.id.TypeTV);
             DetailTV = itemView.findViewById(R.id.DetailsTV);
-            arrow = itemView.findViewById(R.id.arrowBtn);
+            edit_icon = itemView.findViewById(R.id.EditBtn);
+            tvSeeMore = itemView.findViewById(R.id.SeeMoreTV);
             context = itemView.getContext();
             noteTypeLLayout = itemView.findViewById(R.id.noteTypeLLayout);
+
         }
     }
 
@@ -84,19 +91,22 @@ public class ListDataAdapter extends
         TextView DetailTV_ = holder.DetailTV;
         DetailTV_.setText(data.Details);
 
-        ImageView arrow = holder.arrow;
+        ImageView edit_icon = holder.edit_icon;
         LinearLayout noteTypeLLayout = holder.noteTypeLLayout;
 
+        TextView TVSeeMore = holder.tvSeeMore;
+        if (data.Details.length() > 100) TVSeeMore.setVisibility(View.VISIBLE);
+        else TVSeeMore.setVisibility(View.GONE);
 
-        arrow.setOnClickListener(new View.OnClickListener() {
+        edit_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                arrow.setColorFilter(Color.GRAY);
+                edit_icon.setColorFilter(Color.GRAY);
 
-                PopupMenu popup = new PopupMenu(holder.context, arrow);
+                PopupMenu popup = new PopupMenu(holder.context, edit_icon);
                 MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.showlist_onclicklistener, popup.getMenu());
+                inflater.inflate(R.menu.recyclerview_onclicklistener, popup.getMenu());
                 popup.show();
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -126,12 +136,17 @@ public class ListDataAdapter extends
                                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        // Do nothing
                                         dialog.dismiss();
                                     }
                                 });
                                 AlertDialog alert = builder.create();
                                 alert.show();
+
+                            case R.id.edit:
+                                Fragment mFragment = new editView_Fragment(data,holder.context);
+                                FragmentTransaction transaction = ((FragmentActivity) rootContext).getSupportFragmentManager().beginTransaction();
+                                transaction.addToBackStack(null);
+                                transaction.replace(R.id.frameForFragment, mFragment).commit();
 
                         }
 
@@ -141,7 +156,7 @@ public class ListDataAdapter extends
                 popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
                     @Override
                     public void onDismiss(PopupMenu menu) {
-                        arrow.clearColorFilter();
+                        edit_icon.clearColorFilter();
                     }
                 });
 
@@ -151,14 +166,42 @@ public class ListDataAdapter extends
         DateTV_.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arrow.performClick();
+                edit_icon.performClick();
             }
         });
+
+//        int collapsedMaxLines = 2;
+//        ObjectAnimator animation = ObjectAnimator.ofInt(TVSeeMore, "maxLines",
+//                TVSeeMore.getMaxLines() == collapsedMaxLines? TVSeeMore.getLineCount() : collapsedMaxLines);
+//        animation.setDuration(200).start();
 
         noteTypeLLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arrow.performClick();
+                if (TVSeeMore.getVisibility() == View.VISIBLE && DetailTV_.getMaxLines() == 2 ){
+                    ObjectAnimator animation = ObjectAnimator.ofInt(DetailTV_, "maxLines",8);
+                    TVSeeMore.setText("See Less");
+                    //DetailTV_.setMaxLines(30);
+                    animation.setDuration(200).start();
+
+                }
+                if (TVSeeMore.getVisibility() == View.INVISIBLE ) {
+                    Fragment mFragment = new editView_Fragment(data,holder.context);
+                    FragmentTransaction transaction = ((FragmentActivity) rootContext).getSupportFragmentManager().beginTransaction();
+                    transaction.addToBackStack(null);
+                    transaction.replace(R.id.frameForFragment, mFragment).commit();
+                }
+            }
+        });
+
+        TVSeeMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(TVSeeMore.getText() == "See Less"){
+                    ObjectAnimator animation = ObjectAnimator.ofInt(DetailTV_, "maxLines",2);
+                    TVSeeMore.setText("See More");
+                    animation.setDuration(200).start();
+                }
             }
         });
     }

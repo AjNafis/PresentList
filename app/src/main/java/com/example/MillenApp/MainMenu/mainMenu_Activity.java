@@ -148,7 +148,7 @@ public class mainMenu_Activity extends AppCompatActivity {
         toDoListRoute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
+                //progressBar.setVisibility(View.VISIBLE);
                 startActivity(new Intent(mainMenu_Activity.this, com.example.MillenApp.ToDoList.dataEntry_Activity.class));
             }
         });
@@ -157,7 +157,7 @@ public class mainMenu_Activity extends AppCompatActivity {
         groceryListRoute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
+                //progressBar.setVisibility(View.VISIBLE);
                 startActivity(new Intent(mainMenu_Activity.this, com.example.MillenApp.GroceryList.dataEntry_Activity.class));
             }
         });
@@ -166,8 +166,9 @@ public class mainMenu_Activity extends AppCompatActivity {
         notesListRoute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                startActivity(new Intent(mainMenu_Activity.this, com.example.MillenApp.NotesList.showData_Activity.class));
                 progressBar.setVisibility(View.VISIBLE);
-                startActivity(new Intent(mainMenu_Activity.this, com.example.MillenApp.NotesList.dataEntry_Activity.class));
             }
         });
 

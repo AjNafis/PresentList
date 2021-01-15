@@ -13,8 +13,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,14 +24,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.MillenApp.R;
-import com.example.MillenApp.ToDoList.showData_Activity;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class dataEntry_Activity extends AppCompatActivity {
@@ -53,7 +48,7 @@ public class dataEntry_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notes_data_entry);
+        setContentView(R.layout.activity_add_to_notes);
 
         //This creates the back button on the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -231,15 +226,21 @@ public class dataEntry_Activity extends AppCompatActivity {
     //This handles the back button on the action bar.
     @Override
     public boolean onSupportNavigateUp() {
+        startActivity(new Intent(this, com.example.MillenApp.NotesList.showData_Activity.class));
         finish();
         return true;
+    }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, com.example.MillenApp.NotesList.showData_Activity.class));
+        finish();
     }
 
     //Creates options menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.et_menu, menu);
+        inflater.inflate(R.menu.actionbar_options_menu, menu);
         return true;
     }
     //Handles options menu interactions. Send to previous page.
@@ -247,22 +248,26 @@ public class dataEntry_Activity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.tasklist:
-
-                ImageView arrow = findViewById(R.id.arrowImageView);
-                arrow.performClick();
-                return true;
-
-            case R.id.taskinputscreen:
-                Toast.makeText(this, "You are currently on the note entry screen", Toast.LENGTH_SHORT).show();
+            case R.id.showList:
+                startActivity(new Intent(this, com.example.MillenApp.NotesList.showData_Activity.class));
+                finish();
                 return true;
 
             case R.id.goToMainMenu:
+                startActivity(new Intent(this, com.example.MillenApp.MainMenu.mainMenu_Activity.class));
                 finish();
 
             default:
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.addEntryButton).setVisible(false);
+        menu.findItem(R.id.taskinputscreen).setVisible(false);
+        return true;
     }
 }

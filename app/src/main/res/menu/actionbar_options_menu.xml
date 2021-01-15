@@ -6,12 +6,18 @@
         android:title="Enter New Data"
         app:showAsAction="never"></item>
 
-    <item android:id="@+id/tasklist"
+    <item android:id="@+id/showList"
         android:title="Show List"
         app:showAsAction="never"></item>
 
     <item android:id="@+id/goToMainMenu"
         android:title="Main Menu"
         app:showAsAction="never"></item>
+
+    <item
+        android:id="@+id/addEntryButton"
+        android:icon="@drawable/add_icon"
+        android:title="Add Entry"
+        app:showAsAction="always" />
 
 </menu>

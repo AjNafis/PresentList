@@ -14,11 +14,6 @@
         android:title="Cancel"
         app:showAsAction="never"></item>
 
-    <item
-        android:id="@+id/add"
-        android:icon="@drawable/add_icon"
-        android:title="Add Entry"
-        app:showAsAction="always" />
 </menu>
 
 

@@ -94,7 +94,7 @@ public class showData_Activity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PopupMenu popup = new PopupMenu(showData_Activity.this, view);
                 MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.showlist_onclicklistener, popup.getMenu());
+                inflater.inflate(R.menu.recyclerview_onclicklistener, popup.getMenu());
                 popup.show();
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -125,7 +125,7 @@ public class showData_Activity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 PopupMenu popup = new PopupMenu(showData_Activity.this, v);
                 MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.et_menu, popup.getMenu());
+                inflater.inflate(R.menu.actionbar_options_menu, popup.getMenu());
                 popup.show();
 
                 return false;
@@ -145,7 +145,7 @@ public class showData_Activity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.et_menu, menu);
+        inflater.inflate(R.menu.actionbar_options_menu, menu);
         return true;
     }
     //Handles options menu interactions. Send to previous page.
@@ -153,7 +153,7 @@ public class showData_Activity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.tasklist:
+            case R.id.showList:
                 Toast.makeText(this, "You are currently on the grocery list screen", Toast.LENGTH_SHORT).show();
                 return true;
 

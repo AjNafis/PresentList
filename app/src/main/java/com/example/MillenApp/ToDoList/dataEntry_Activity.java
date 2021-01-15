@@ -45,7 +45,7 @@ public class dataEntry_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_todo_list_entry);
+        setContentView(R.layout.activity_add_to_todo_list);
 
         //This creates the back button on the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -230,7 +230,7 @@ public class dataEntry_Activity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.et_menu, menu);
+        inflater.inflate(R.menu.actionbar_options_menu, menu);
         return true;
     }
     //Handles options menu interactions. Send to previous page.
@@ -238,7 +238,7 @@ public class dataEntry_Activity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.tasklist:
+            case R.id.showList:
 
                 ImageView arrow = findViewById(R.id.arrowImageView);
                 arrow.performClick();

@@ -222,7 +222,7 @@
         android:id="@+id/staticTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Here is a summery of your lists"
+        android:text="Here is a summary of your lists"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textSize="21sp"
