@@ -141,12 +141,14 @@ public class ListDataAdapter extends
                                 });
                                 AlertDialog alert = builder.create();
                                 alert.show();
+                                break;
 
                             case R.id.edit:
                                 Fragment mFragment = new editView_Fragment(data,holder.context);
                                 FragmentTransaction transaction = ((FragmentActivity) rootContext).getSupportFragmentManager().beginTransaction();
                                 transaction.addToBackStack(null);
                                 transaction.replace(R.id.frameForFragment, mFragment).commit();
+                                break;
 
                         }
 
@@ -178,29 +180,34 @@ public class ListDataAdapter extends
         noteTypeLLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TVSeeMore.getVisibility() == View.VISIBLE && DetailTV_.getMaxLines() == 2 ){
-                    ObjectAnimator animation = ObjectAnimator.ofInt(DetailTV_, "maxLines",8);
-                    TVSeeMore.setText("See Less");
-                    //DetailTV_.setMaxLines(30);
-                    animation.setDuration(200).start();
-
-                }
                 if (TVSeeMore.getVisibility() == View.INVISIBLE ) {
                     Fragment mFragment = new editView_Fragment(data,holder.context);
                     FragmentTransaction transaction = ((FragmentActivity) rootContext).getSupportFragmentManager().beginTransaction();
                     transaction.addToBackStack(null);
                     transaction.replace(R.id.frameForFragment, mFragment).commit();
                 }
+                else if (TVSeeMore.getVisibility() == View.VISIBLE && DetailTV_.getMaxLines() == 2 ){
+                    ObjectAnimator animation = ObjectAnimator.ofInt(DetailTV_, "maxLines",8);
+                    animation.setDuration(200).start();
+                    TVSeeMore.setText("See Less");
+
+                }
+
             }
         });
 
         TVSeeMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TVSeeMore.getText() == "See Less"){
+                if(DetailTV_.getMaxLines() == 8){
                     ObjectAnimator animation = ObjectAnimator.ofInt(DetailTV_, "maxLines",2);
-                    TVSeeMore.setText("See More");
                     animation.setDuration(200).start();
+                    TVSeeMore.setText("See More");
+                }
+                if(DetailTV_.getMaxLines() == 2){
+                    ObjectAnimator animation = ObjectAnimator.ofInt(DetailTV_, "maxLines",8);
+                    animation.setDuration(200).start();
+                    TVSeeMore.setText("See Less");
                 }
             }
         });

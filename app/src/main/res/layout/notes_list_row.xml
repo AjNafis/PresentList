@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="15dp"
-    android:paddingBottom="0dp">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/DateTV"
@@ -15,6 +13,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="12dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
         android:layout_weight="2"
         android:text="Date"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -26,6 +25,7 @@
         android:background="@drawable/rectangle_box_for_notes"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -111,23 +111,24 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_weight="1"
-                    android:maxLines="2"
+                    android:maxLines="8"
                     android:text="Note"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/SeeMoreTV"
-                    android:layout_width="wrap_content"
+                    android:layout_width="143dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_weight="1"
                     android:foregroundGravity="right"
                     android:gravity="right"
                     android:paddingRight="17dp"
-                    android:text="See More"
+                    android:text="See Less"
                     android:textStyle="bold"
-                    android:visibility="invisible" />
+                    android:visibility="invisible"
+                    tools:visibility="invisible" />
 
             </LinearLayout>
 
