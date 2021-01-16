@@ -7,7 +7,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -68,7 +67,7 @@ public class editView_Fragment extends Fragment {
         EditText editDetails= rootView.findViewById(R.id.edit_note_details);
 
         date.setText(data.Date);
-        editTitle.setText(data.Type);
+        editTitle.setText(data.Title);
         editDetails.setText(data.Details);
 
         exitBtn = rootView.findViewById(R.id.exitBtn_);

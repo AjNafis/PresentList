@@ -1,6 +1,8 @@
 package com.example.MillenApp.NotesList;
 
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,8 +12,10 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -34,9 +38,12 @@ public class ListDataAdapter extends
     private ArrayList<DataObj> dataObjArrayList;
     private SQLiteDatabase db;
     private Context rootContext;
+
+
     public ListDataAdapter (ArrayList<DataObj> DataObjArrayList, Context context) {
         dataObjArrayList = DataObjArrayList;
         rootContext = context;
+
         db = context.openOrCreateDatabase("NotesListDb",context.MODE_PRIVATE,null);
 
         db.execSQL("CREATE TABLE IF NOT EXISTS DeletedNotesListDataTable(" +
@@ -50,24 +57,25 @@ public class ListDataAdapter extends
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView DateTV;
-        public TextView TypeTV;
-        public TextView DetailTV;
+        public EditText TitleET;
+        public EditText DetailET;
         public ImageView edit_icon;
         public Context context;
         public LinearLayout noteTypeLLayout;
         public TextView tvSeeMore;
+        public ImageView saveEditBtn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             DateTV = itemView.findViewById(R.id.DateTV);
-            TypeTV = itemView.findViewById(R.id.TypeTV);
-            DetailTV = itemView.findViewById(R.id.DetailsTV);
+            TitleET = itemView.findViewById(R.id.TypeTV);
+            DetailET = itemView.findViewById(R.id.DetailsTV);
             edit_icon = itemView.findViewById(R.id.EditBtn);
             tvSeeMore = itemView.findViewById(R.id.SeeMoreTV);
             context = itemView.getContext();
             noteTypeLLayout = itemView.findViewById(R.id.noteTypeLLayout);
-
+            saveEditBtn = itemView.findViewById(R.id.saveEditBtn);
         }
     }
 
@@ -85,6 +93,7 @@ public class ListDataAdapter extends
         return viewHolder;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
@@ -93,18 +102,111 @@ public class ListDataAdapter extends
         TextView DateTV_ = holder.DateTV;
         DateTV_.setText(data.Date);
 
-        TextView TypeTV_ = holder.TypeTV;
-        TypeTV_.setText(data.Type);
+        EditText TitleET_ = holder.TitleET;
+        TitleET_.setText(data.Title);
 
-        TextView DetailTV_ = holder.DetailTV;
-        DetailTV_.setText(data.Details);
+        EditText DetailET_ = holder.DetailET;
+        DetailET_.setText(data.Details);
 
         ImageView edit_icon = holder.edit_icon;
+        ImageView saveEditBtn = holder.saveEditBtn;
         LinearLayout noteTypeLLayout = holder.noteTypeLLayout;
 
         TextView TVSeeMore = holder.tvSeeMore;
         if (data.Details.length() > 100) TVSeeMore.setVisibility(View.VISIBLE);
         else TVSeeMore.setVisibility(View.GONE);
+
+        TitleET_.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus && edit_icon.getVisibility() == View.VISIBLE){
+
+                    AnimatorSet mAnimationSet = new AnimatorSet();
+                    ObjectAnimator fadeOut = ObjectAnimator.ofFloat(edit_icon,"alpha", 1f, 0f);
+                    fadeOut.setDuration(200);
+                    mAnimationSet.play(fadeOut);
+                    mAnimationSet.start();
+                    edit_icon.setVisibility(View.GONE);
+
+                    fadeOut = ObjectAnimator.ofInt(edit_icon,"visibility", View.VISIBLE,View.GONE);
+                    fadeOut.setDuration(200);
+                    mAnimationSet.play(fadeOut);
+                    mAnimationSet.start();
+
+                    ObjectAnimator fadeIn = ObjectAnimator.ofInt(saveEditBtn,"visibility", View.GONE,View.VISIBLE);
+                    fadeIn.setDuration(200);
+                    mAnimationSet.play(fadeIn).after(200);
+                    mAnimationSet.start();
+
+                    fadeIn = ObjectAnimator.ofFloat(saveEditBtn,"alpha", 0f, 1f);
+                    fadeIn.setDuration(200);
+                    mAnimationSet.play(fadeIn).after(200);
+                    mAnimationSet.start();
+                }
+                else{
+
+                    if (saveEditBtn.getVisibility() == View.VISIBLE) {
+                        edit_icon.setVisibility(View.VISIBLE);
+                        edit_icon.setAlpha(1f);
+                        saveEditBtn.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+
+        DetailET_.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus && edit_icon.getVisibility() == View.VISIBLE){
+                    AnimatorSet mAnimationSet = new AnimatorSet();
+                    ObjectAnimator fadeOut = ObjectAnimator.ofFloat(edit_icon,"alpha", 1f, 0f);
+                    fadeOut.setDuration(200);
+                    mAnimationSet.play(fadeOut);
+                    mAnimationSet.start();
+                    edit_icon.setVisibility(View.GONE);
+
+                    fadeOut = ObjectAnimator.ofInt(edit_icon,"visibility", View.VISIBLE,View.GONE);
+                    fadeOut.setDuration(200);
+                    mAnimationSet.play(fadeOut);
+                    mAnimationSet.start();
+
+                    ObjectAnimator fadeIn = ObjectAnimator.ofInt(saveEditBtn,"visibility", View.GONE,View.VISIBLE);
+                    fadeIn.setDuration(200);
+                    mAnimationSet.play(fadeIn).after(200);
+                    mAnimationSet.start();
+
+                    fadeIn = ObjectAnimator.ofFloat(saveEditBtn,"alpha", 0f, 1f);
+                    fadeIn.setDuration(200);
+                    mAnimationSet.play(fadeIn).after(200);
+                    mAnimationSet.start();
+                }
+                else{
+
+                    if (saveEditBtn.getVisibility() == View.VISIBLE) {
+                        edit_icon.setVisibility(View.VISIBLE);
+                        edit_icon.setAlpha(1f);
+                        saveEditBtn.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+
+        saveEditBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tempTitle = TitleET_.getText().toString();
+                String tempDetail = DetailET_.getText().toString();
+
+                ContentValues values = new ContentValues();
+                if (!tempTitle.equals(data.Title)){
+                    values.put("type",tempTitle.trim());
+                }
+                if (!tempDetail.equals(data.Details)){
+                    values.put("details",tempTitle.trim());
+                }
+                db.update("NotesListDataTable",values,"id = " + data.ID,null);
+            }
+        });
 
         edit_icon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +229,7 @@ public class ListDataAdapter extends
                                 DataObj tempObj = dataObjArrayList.get(position);
                                 builder.setMessage("Are you sure you want to delete the following note?\n\n" +
                                         "Date: " + tempObj.Date + "\n" +
-                                "Note Type: " + tempObj.Type + "\n" +
+                                "Note Type: " + tempObj.Title + "\n" +
                                         "Note Details: " + tempObj.Details );
                                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
 
@@ -167,9 +269,7 @@ public class ListDataAdapter extends
                                 transaction.addToBackStack(null);
                                 transaction.replace(R.id.frameForFragment, mFragment).commit();
                                 break;
-
                         }
-
                         return false;
                     }
                 });
@@ -204,8 +304,8 @@ public class ListDataAdapter extends
                     transaction.addToBackStack(null);
                     transaction.replace(R.id.frameForFragment, mFragment).commit();
                 }
-                else if (TVSeeMore.getVisibility() == View.VISIBLE && DetailTV_.getMaxLines() == 2 ){
-                    ObjectAnimator animation = ObjectAnimator.ofInt(DetailTV_, "maxLines",8);
+                else if (TVSeeMore.getVisibility() == View.VISIBLE && DetailET_.getMaxLines() == 2 ){
+                    ObjectAnimator animation = ObjectAnimator.ofInt(DetailET_, "maxLines",8);
                     animation.setDuration(100).start();
                     TVSeeMore.setText("See Less");
                 }
@@ -215,18 +315,22 @@ public class ListDataAdapter extends
         TVSeeMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(DetailTV_.getMaxLines() == 8){
-                    ObjectAnimator animation = ObjectAnimator.ofInt(DetailTV_, "maxLines",2);
-                    animation.setDuration(100).start();
-                    TVSeeMore.setText("See More");
+
+//                if(DetailET_.getLineCount() != 2){
+//                    ObjectAnimator animation = ObjectAnimator.ofInt(DetailET_, "maxLines",2);
+//                    animation.setDuration(100).start();
+//                    TVSeeMore.setText("See More");
                 }
-                else{
-                    ObjectAnimator animation = ObjectAnimator.ofInt(DetailTV_, "maxLines",8);
-                    animation.setDuration(100).start();
-                    TVSeeMore.setText("See Less");
-                }
-            }
+//                else{
+//                    ObjectAnimator animation = ObjectAnimator.ofInt(DetailET_, "maxLines",8);
+//                    animation.setDuration(100).start();
+//                    TVSeeMore.setText("See Less");
+//                }
+//            }
         });
+
+
+
     }
 
 

@@ -81,16 +81,17 @@ public class showData_Activity extends AppCompatActivity {
         }
         cr.close();
 
-        adapter = new ListDataAdapter(dataObjArrayList,this);
-
         rvNotes = findViewById(R.id.rvNotes);
+
+        adapter = new ListDataAdapter(dataObjArrayList,this);
 
         rvNotes.setAdapter(adapter);
 
-        rvNotes.setLayoutManager(new LinearLayoutManager(this));
+        rvNotes.setLayoutManager(new CustomGridLayoutManager(this));
 
 
     }
+
 
     //This handles the back button on the action bar.
     @Override
