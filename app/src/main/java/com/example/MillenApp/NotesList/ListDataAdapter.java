@@ -2,6 +2,7 @@ package com.example.MillenApp.NotesList;
 
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
@@ -37,6 +38,13 @@ public class ListDataAdapter extends
         dataObjArrayList = DataObjArrayList;
         rootContext = context;
         db = context.openOrCreateDatabase("NotesListDb",context.MODE_PRIVATE,null);
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS DeletedNotesListDataTable(" +
+                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "date varchar(32)," +
+                "type varchar(255)," +
+                "details varchar(255))");
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -125,11 +133,21 @@ public class ListDataAdapter extends
 
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        int ID = Integer.parseInt(dataObjArrayList.get(position).ID);
+                                        int ID = Integer.parseInt(tempObj.ID);
                                         db.delete("NotesListDataTable", "id" + "=" + ID , null);
+
+                                        ContentValues values = new ContentValues();
+                                        values.put("id",tempObj.ID);
+                                        values.put("date",tempObj.Date);
+                                        values.put("type", tempObj.Details);
+                                        values.put("details",tempObj.ID);
+
+                                        db.insert("DeletedNotesListDataTable",null,values);
+
                                         dataObjArrayList.remove(position);
                                         notifyItemRemoved(position);
                                         notifyItemRangeChanged(position, dataObjArrayList.size());
+
                                         dialog.dismiss();
                                     }
                                 });
@@ -188,11 +206,9 @@ public class ListDataAdapter extends
                 }
                 else if (TVSeeMore.getVisibility() == View.VISIBLE && DetailTV_.getMaxLines() == 2 ){
                     ObjectAnimator animation = ObjectAnimator.ofInt(DetailTV_, "maxLines",8);
-                    animation.setDuration(200).start();
+                    animation.setDuration(100).start();
                     TVSeeMore.setText("See Less");
-
                 }
-
             }
         });
 
@@ -201,12 +217,12 @@ public class ListDataAdapter extends
             public void onClick(View v) {
                 if(DetailTV_.getMaxLines() == 8){
                     ObjectAnimator animation = ObjectAnimator.ofInt(DetailTV_, "maxLines",2);
-                    animation.setDuration(200).start();
+                    animation.setDuration(100).start();
                     TVSeeMore.setText("See More");
                 }
-                if(DetailTV_.getMaxLines() == 2){
+                else{
                     ObjectAnimator animation = ObjectAnimator.ofInt(DetailTV_, "maxLines",8);
-                    animation.setDuration(200).start();
+                    animation.setDuration(100).start();
                     TVSeeMore.setText("See Less");
                 }
             }

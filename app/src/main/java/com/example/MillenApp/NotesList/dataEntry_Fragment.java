@@ -78,8 +78,6 @@ public class dataEntry_Fragment extends Fragment {
 
         });
 
-
-
         //Getting todays date from phone.
         Calendar current = Calendar.getInstance();
         int y = current.get(Calendar.YEAR);

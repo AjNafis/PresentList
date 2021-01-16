@@ -44,6 +44,8 @@ public class editView_Fragment extends Fragment {
     Button uploadBtn;
     View rootView;
     ImageButton exitBtn;
+    View recyclerView;
+    View addBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,7 @@ public class editView_Fragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_edit_view_, container, false);
 
-        startRecyclerView_Animations();
+        startAnimations();
 
         TextView date = rootView.findViewById(R.id.dateTV);
         EditText editTitle = rootView.findViewById(R.id.edit_note_title);
@@ -70,7 +72,6 @@ public class editView_Fragment extends Fragment {
         editDetails.setText(data.Details);
 
         exitBtn = rootView.findViewById(R.id.exitBtn_);
-        //Handles arrow clicks on both orientations.
         exitBtn.setOnClickListener(v -> {
 
             fadeInAddBtn();
@@ -142,8 +143,6 @@ public class editView_Fragment extends Fragment {
                 }
             }
         });
-
-
         return rootView;
     }
 
@@ -153,9 +152,9 @@ public class editView_Fragment extends Fragment {
     }
 
 
-    private void startRecyclerView_Animations() {
-        View recyclerView = getActivity().findViewById(R.id.rvNotes);
-        View addBtn = getActivity().findViewById(R.id.addEntryButton);
+    private void startAnimations() {
+        recyclerView = getActivity().findViewById(R.id.rvNotes);
+        addBtn = getActivity().findViewById(R.id.addEntryButton);
 
 
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(recyclerView, "alpha",  1f, .2f);
@@ -181,13 +180,13 @@ public class editView_Fragment extends Fragment {
         mAnimationSet.start();
     }
     private void fadeInAddBtn() {
-        ObjectAnimator fadeIn2 = ObjectAnimator.ofFloat(uploadBtn,"alpha", 0f, 1f);
+        ObjectAnimator fadeIn2 = ObjectAnimator.ofFloat(addBtn,"alpha", 0f, 1f);
         fadeIn2.setDuration(DURATION);
         AnimatorSet mAnimationSet2 = new AnimatorSet();
         mAnimationSet2.play(fadeIn2);
         mAnimationSet2.start();
 
-        fadeIn2 = ObjectAnimator.ofInt(uploadBtn,"visibility", View.INVISIBLE,View.VISIBLE);
+        fadeIn2 = ObjectAnimator.ofInt(addBtn,"visibility", View.INVISIBLE,View.VISIBLE);
         fadeIn2.setDuration(DURATION);
         mAnimationSet2.play(fadeIn2);
         mAnimationSet2.start();
